@@ -3,90 +3,129 @@
 		"title": "Manzana",
 		"description": "Soy una Manzana",
 		"price": 10,
-		"thumbnail": "manza_img",
+		"thumbnails": [
+			"manza_img"
+		],
 		"code": 5,
 		"stock": 10,
+		"category": "Verduras",
+		"status": true,
 		"id": 1
 	},
 	{
 		"title": "Banana",
 		"description": "Soy una Banana",
 		"price": 4,
-		"thumbnail": "banana_img",
+		"thumbnails": [
+			"banana_img"
+		],
 		"code": 9,
 		"stock": 12,
+		"category": "Verduras",
+		"status": true,
 		"id": 2
 	},
 	{
 		"title": "Pera",
 		"description": "Soy una Pera",
 		"price": 4,
-		"thumbnail": "pera_img",
+		"thumbnails": [
+			"pera_img"
+		],
 		"code": 12,
 		"stock": 11,
+		"category": "Verduras",
+		"status": true,
 		"id": 3
 	},
 	{
 		"title": "Mandarina",
 		"description": "Soy una Mandarina",
 		"price": 5,
-		"thumbnail": "mandarina_img",
+		"thumbnails": [
+			"mandarina_img"
+		],
 		"code": 8,
 		"stock": 3,
+		"category": "Verduras",
+		"status": true,
 		"id": 4
 	},
 	{
 		"title": "Pepino",
 		"description": "Soy un pepino",
 		"price": 21,
-		"thumbnail": "pepino_img",
+		"thumbnails": [
+			"pepino_img"
+		],
 		"code": 51,
 		"stock": 2,
+		"category": "Verduras",
+		"status": true,
 		"id": 5
 	},
 	{
 		"title": "Naranja",
 		"description": "Soy una naranja",
 		"price": 17,
-		"thumbnail": "naranja_img",
+		"thumbnails": [
+			"naranja_img"
+		],
 		"code": 3,
 		"stock": 2,
+		"category": "Verduras",
+		"status": true,
 		"id": 6
 	},
 	{
 		"title": "Ciruela",
 		"description": "Soy una ciruela",
 		"price": 17,
-		"thumbnail": "ciruela_img",
+		"thumbnails": [
+			"ciruela_img"
+		],
 		"code": 6,
 		"stock": 3,
+		"category": "Verduras",
+		"status": true,
 		"id": 7
 	},
 	{
 		"title": "Tomate",
 		"description": "Soy un tomate",
 		"price": 87,
-		"thumbnail": "tomate_img",
+		"thumbnails": null,
 		"code": 1,
 		"stock": 15,
+		"category": "Verduras",
+		"status": true,
 		"id": 8
 	},
 	{
 		"title": "Lechuga",
 		"description": "Soy una lechuga",
 		"price": 24,
-		"thumbnail": "lechuga_img",
+		"thumbnails": [
+			"lechuga_img_1",
+			"Lechuga_img_2"
+		],
 		"code": 34,
 		"stock": 5,
+		"category": "Verduras",
+		"status": true,
 		"id": 9
 	},
 	{
 		"title": "Zapallo",
 		"description": "Soy un zapallo",
 		"price": 38,
-		"thumbnail": "zapallo_img",
+		"thumbnails": [
+			"zapallo_img"
+		],
 		"code": 39,
 		"stock": 2,
+		"category": "Verduras",
+		"status": true,
 		"id": 10
 	}
 ]
