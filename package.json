@@ -1,5 +1,6 @@
 {
-  "name": "proyecto-backend",
+  "type": "module",
+  "name": "proyecto-backend-juan",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
