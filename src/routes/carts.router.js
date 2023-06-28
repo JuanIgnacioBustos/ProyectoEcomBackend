@@ -14,4 +14,17 @@ router.post('/', async (req, res) => {
     res.send({status: "success"})
 })
 
+router.get('/:cid', async (req, res) => {
+    let id = req.params.cid
+
+    let cart = await cartManager.getCartById(id)
+
+    if (!cart) {
+    res.send("No se encontró el carrito")
+    return
+}
+
+    res.send(cart.products)
+})
+
 export default router

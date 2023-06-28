@@ -25,4 +25,10 @@ export default class CartManager {
 
     await fs.promises.writeFile(this.path, JSON.stringify(carts, null, '\t'))
 }
+
+    async getCartById(id) {
+    let carts = await this.#loadCartsFromPath()
+
+    return carts.find((cart) => cart.id === id)
+}
 }
