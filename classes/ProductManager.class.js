@@ -1,7 +1,7 @@
 import fs from 'fs'
 import { v4 as uuidV4 } from 'uuid';
 
-import Product from "./Product.js"
+import Product from "./Product.class.js"
 
 export default class ProductManager {
     constructor(path){
@@ -76,8 +76,7 @@ export default class ProductManager {
     if (!productFound) {
         console.log("Not found")
         return
-    }
-
+}
     return productFound
 }
 
@@ -92,14 +91,14 @@ export default class ProductManager {
     products = products.map((product) => {
         if (product.id === id) {
         return {...product, ...updatedProduct}
-    }
+        }
         return product
-})
+    })
 
     // Se reescriben los productos en el archivo (con el producto actualizado)
 
     await fs.promises.writeFile(this.path, JSON.stringify(products, null, '\t'))
-}
+    }
 
     async deleteProduct(id) {
     let productFound = await this.getProductById(id)

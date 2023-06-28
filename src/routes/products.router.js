@@ -1,5 +1,5 @@
 import { Router } from "express"
-import ProductManager from '../classes/ProductManager.js'
+import ProductManager from '../classes/ProductManager.class.js'
 import __dirname from "../utils.js"
 
 let path = __dirname + "/files/products.json"
@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/:pid', async (req, res) => {
-  let id = parseInt(req.params.pid)
+  let id = req.params.pid
 
   let product = await productManager.getProductById(id)
 
