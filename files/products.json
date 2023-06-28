@@ -10,7 +10,7 @@
 		"stock": 10,
 		"category": "Verduras",
 		"status": true,
-		"id": 1
+		"id": "815892ba-5e47-41db-91f0-1d52e7a77441"
 	},
 	{
 		"title": "Banana",
@@ -23,7 +23,7 @@
 		"stock": 12,
 		"category": "Verduras",
 		"status": true,
-		"id": 2
+		"id": "6b7c488c-77b4-48f2-9ca7-f4fb0b9b9802"
 	},
 	{
 		"title": "Pera",
@@ -36,7 +36,7 @@
 		"stock": 11,
 		"category": "Verduras",
 		"status": true,
-		"id": 3
+		"id": "047ca583-ac9c-4c07-ba36-62a51b7df53f"
 	},
 	{
 		"title": "Mandarina",
@@ -49,7 +49,7 @@
 		"stock": 3,
 		"category": "Verduras",
 		"status": true,
-		"id": 4
+		"id": "4cab1570-5a49-4fdc-8af6-13520046d220"
 	},
 	{
 		"title": "Pepino",
@@ -62,7 +62,7 @@
 		"stock": 2,
 		"category": "Verduras",
 		"status": true,
-		"id": 5
+		"id": "3f41d49a-c2ad-4d15-bd5d-22cb8aaf48bf"
 	},
 	{
 		"title": "Naranja",
@@ -75,7 +75,7 @@
 		"stock": 2,
 		"category": "Verduras",
 		"status": true,
-		"id": 6
+		"id": "aa5bf55d-b965-495c-9a24-783f1f705c05"
 	},
 	{
 		"title": "Ciruela",
@@ -88,7 +88,7 @@
 		"stock": 3,
 		"category": "Verduras",
 		"status": true,
-		"id": 7
+		"id": "ed1ce709-3ad5-472d-b514-33a85688ea13"
 	},
 	{
 		"title": "Tomate",
@@ -99,7 +99,7 @@
 		"stock": 15,
 		"category": "Verduras",
 		"status": true,
-		"id": 8
+		"id": "c1fec29a-0117-4d92-b15f-4fb3e7350ce7"
 	},
 	{
 		"title": "Lechuga",
@@ -113,7 +113,7 @@
 		"stock": 5,
 		"category": "Verduras",
 		"status": true,
-		"id": 9
+		"id": "9c782523-c7f5-4b15-b938-916ef6bca090"
 	},
 	{
 		"title": "Zapallo",
@@ -126,6 +126,6 @@
 		"stock": 2,
 		"category": "Verduras",
 		"status": true,
-		"id": 10
+		"id": "797e7d0d-2eb5-4136-9b79-0d79b4984425"
 	}
 ]

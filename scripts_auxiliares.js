@@ -34,6 +34,6 @@ async function imprimir_productos(limit = null) {
     console.log(await productManager.getProducts(limit))
 }
 
-//agregar_10_productos_al_json()
+agregar_10_productos_al_json()
 
 //imprimir_productos(3)

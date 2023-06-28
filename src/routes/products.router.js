@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 
   let products = await productManager.getProducts(limit)
 
-  res.send({products})
+  res.send({products}) // Se envian los productos en forma de objeto como pide la consigna
 })
 
 router.get('/:pid', async (req, res) => {
@@ -26,7 +26,7 @@ router.get('/:pid', async (req, res) => {
     return
   }
 
-  res.send(product)
+  res.send(product) // Se envian los productos en forma de objeto como pide la consigna
 })
 
 export default router

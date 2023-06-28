@@ -1,4 +1,5 @@
 import fs from 'fs'
+import { v4 as uuidV4 } from 'uuid';
 
 import Product from "./Product.js"
 
@@ -12,11 +13,11 @@ export default class ProductManager {
 
     if (fs.existsSync(this.path)) {
 
-    let data = await fs.promises.readFile(this.path, "utf-8");
+        let data = await fs.promises.readFile(this.path, "utf-8");
         products = JSON.parse(data)
 
-        products = products.map((product) => this.#rebuildProduct(product)) // Se reconstruyen los productos como instancia de la clase Product
-    }
+      products = products.map((product) => this.#rebuildProduct(product)) // Se reconstruyen los productos como instancia de la clase Product
+}
 
     return products
 }
@@ -38,23 +39,18 @@ export default class ProductManager {
     if (hayCampoVacio) {
         console.log("Falta agregar un campo")
         return
-    }
+}
 
     if (products.some( product => code === product.code )) {
         console.log("Ya existe un producto con ese código")
         return
-    }
+}
 
     // Se agrega el producto
 
     let newProduct = new Product(title, description, price, thumbnails, code, stock, category, status);
 
-    if (products.length === 0) {
-        newProduct.id = 1
-    }
-    else {
-        newProduct.id = products[products.length - 1].id + 1
-}
+    newProduct.id = uuidV4()
 
     products.push(newProduct)
 
@@ -67,7 +63,7 @@ export default class ProductManager {
     let products = await this.#loadProductsFromPath()
 
     if (!limit) {
-    return products
+        return products
 }
 
     return products.slice(0, limit)
@@ -78,9 +74,9 @@ export default class ProductManager {
     let productFound = products.find(product => product.id === id)
 
     if (!productFound) {
-    console.log("Not found")
-    return
-}
+        console.log("Not found")
+        return
+    }
 
     return productFound
 }
@@ -89,34 +85,33 @@ export default class ProductManager {
     let products = await this.#loadProductsFromPath();
 
     if (products.some( product => product.code === updatedProduct.code )) {
-    console.log("No se puede actualizar el producto. Pues ya existe un producto con ese código")
-    return
+        console.log("No se puede actualizar el producto. Pues ya existe un producto con ese código")
+        return
 }
 
     products = products.map((product) => {
         if (product.id === id) {
         return {...product, ...updatedProduct}
-        }
-        return product
     }
-)
+        return product
+})
 
     // Se reescriben los productos en el archivo (con el producto actualizado)
 
     await fs.promises.writeFile(this.path, JSON.stringify(products, null, '\t'))
-    }
+}
 
     async deleteProduct(id) {
     let productFound = await this.getProductById(id)
     
     if (!productFound) {
         console.log("Product couldn't be erased because it wasn't found")
-    return
+        return
 }
 
     let products = await this.#loadProductsFromPath()
     products = products.filter((product) => product.id != id)
 
     await fs.promises.writeFile(this.path, JSON.stringify(products, null, '\t'))
-}
+    }
 }
