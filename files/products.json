@@ -10,7 +10,7 @@
 		"stock": 10,
 		"category": "Verduras",
 		"status": true,
-		"id": "815892ba-5e47-41db-91f0-1d52e7a77441"
+		"id": "327aa836-d5f0-423e-b123-8d7b44a92f99"
 	},
 	{
 		"title": "Banana",
@@ -23,7 +23,7 @@
 		"stock": 12,
 		"category": "Verduras",
 		"status": true,
-		"id": "6b7c488c-77b4-48f2-9ca7-f4fb0b9b9802"
+		"id": "7f618e73-26ac-4f12-b565-48c8d4c28330"
 	},
 	{
 		"title": "Pera",
@@ -36,7 +36,7 @@
 		"stock": 11,
 		"category": "Verduras",
 		"status": true,
-		"id": "047ca583-ac9c-4c07-ba36-62a51b7df53f"
+		"id": "f28be9b5-1193-4b30-9df7-3c49ab930ac8"
 	},
 	{
 		"title": "Mandarina",
@@ -49,7 +49,7 @@
 		"stock": 3,
 		"category": "Verduras",
 		"status": true,
-		"id": "4cab1570-5a49-4fdc-8af6-13520046d220"
+		"id": "ccd1be15-d1b9-4ea4-87a3-dd98c0f98be0"
 	},
 	{
 		"title": "Pepino",
@@ -62,7 +62,7 @@
 		"stock": 2,
 		"category": "Verduras",
 		"status": true,
-		"id": "3f41d49a-c2ad-4d15-bd5d-22cb8aaf48bf"
+		"id": "b1469eac-c0f6-4fa1-9c16-6d822abcb135"
 	},
 	{
 		"title": "Naranja",
@@ -75,7 +75,7 @@
 		"stock": 2,
 		"category": "Verduras",
 		"status": true,
-		"id": "aa5bf55d-b965-495c-9a24-783f1f705c05"
+		"id": "fcfe08b2-d67c-41d0-bd8d-e27cdb18054d"
 	},
 	{
 		"title": "Ciruela",
@@ -88,7 +88,7 @@
 		"stock": 3,
 		"category": "Verduras",
 		"status": true,
-		"id": "ed1ce709-3ad5-472d-b514-33a85688ea13"
+		"id": "166fcb06-8290-42d1-83df-4d62ee12cf1c"
 	},
 	{
 		"title": "Tomate",
@@ -99,7 +99,7 @@
 		"stock": 15,
 		"category": "Verduras",
 		"status": true,
-		"id": "c1fec29a-0117-4d92-b15f-4fb3e7350ce7"
+		"id": "11d3d3df-829f-40b1-83d9-b441f02fc946"
 	},
 	{
 		"title": "Lechuga",
@@ -113,7 +113,7 @@
 		"stock": 5,
 		"category": "Verduras",
 		"status": true,
-		"id": "9c782523-c7f5-4b15-b938-916ef6bca090"
+		"id": "e5c3d3fb-5b63-4fde-ab30-f6505f61c721"
 	},
 	{
 		"title": "Zapallo",
@@ -126,6 +126,6 @@
 		"stock": 2,
 		"category": "Verduras",
 		"status": true,
-		"id": "797e7d0d-2eb5-4136-9b79-0d79b4984425"
+		"id": "4a19fd5e-db21-4e5a-9df5-7985851d1244"
 	}
 ]

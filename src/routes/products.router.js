@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 
   let products = await productManager.getProducts(limit)
 
-  res.send({products}) // Se envian los productos en forma de objeto como pide la consigna
+  res.send({products})
 })
 
 router.get('/:pid', async (req, res) => {
@@ -26,7 +26,32 @@ router.get('/:pid', async (req, res) => {
     return
   }
 
-  res.send(product) // Se envian los productos en forma de objeto como pide la consigna
+  res.send(product)
+})
+
+router.post('/', async (req, res) => {
+  let newProduct = req.body
+
+  productManager.addProduct(newProduct)
+
+  res.send({status: "success"})
+})
+
+router.put('/:pid', async (req, res) => {
+  let id = req.params.pid
+  let newProduct = req.body
+
+  productManager.updateProduct(id, newProduct)
+
+  res.send({status: "success"})
+})
+
+router.delete('/:pid', async (req, res) => {
+  let id = req.params.pid
+  
+  productManager.deleteProduct(id)
+
+  res.send({status: "success"})
 })
 
 export default router

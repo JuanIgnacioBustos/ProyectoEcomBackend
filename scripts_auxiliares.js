@@ -1,4 +1,4 @@
-import ProductManager from "./classes/ProductManager.js";
+import ProductManager from "./classes/ProductManager.class.js";
 import __dirname from "./utils.js"
 
 // Agrego dos funciones, una para agregar 10 productos al json y otra para ver si el limit al 
@@ -34,6 +34,6 @@ async function imprimir_productos(limit = null) {
     console.log(await productManager.getProducts(limit))
 }
 
-agregar_10_productos_al_json()
+//agregar_10_productos_al_json()
 
 //imprimir_productos(3)
