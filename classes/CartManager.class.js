@@ -16,5 +16,13 @@ export default class CartManager {
     }
 
     return carts
-    }
+}
+
+    async createCart() {
+    let carts = await this.#loadCartsFromPath()
+
+    carts.push({id: uuidV4(), products: []})
+
+    await fs.promises.writeFile(this.path, JSON.stringify(carts, null, '\t'))
+}
 }

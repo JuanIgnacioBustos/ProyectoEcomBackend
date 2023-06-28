@@ -1,3 +1,4 @@
+import CartManager from "./classes/CartManager.class.js";
 import ProductManager from "./classes/ProductManager.class.js";
 import __dirname from "./utils.js"
 
@@ -28,6 +29,16 @@ async function agregar_10_productos_al_json() {
     await productManager.addProduct({title: "Zapallo", description: "Soy un zapallo", price: 38, thumbnails: ["zapallo_img"], code: 39, stock: 2, category: "Verduras", status: true});
 }
 
+async function agregar_3_carritos_al_json() {
+    let cartManager = new CartManager(__dirname + "/files/carts.json")
+
+    await cartManager.createCart()
+
+    await cartManager.createCart()
+
+    await cartManager.createCart()
+}
+
 async function imprimir_productos(limit = null) {
     let productManager = new ProductManager(__dirname + "/files/products.json")
 
@@ -37,3 +48,5 @@ async function imprimir_productos(limit = null) {
 //agregar_10_productos_al_json()
 
 //imprimir_productos(3)
+
+//agregar_3_carritos_al_json()
