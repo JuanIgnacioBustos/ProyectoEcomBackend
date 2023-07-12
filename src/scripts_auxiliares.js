@@ -42,7 +42,7 @@ async function agregar_3_carritos_al_json() {
 async function imprimir_productos(limit = null) {
     let productManager = new ProductManager(__dirname + "/files/products.json")
 
-    console.log(await productManager.getProducts(limit))
+console.log(await productManager.getProducts(limit))
 }
 
 //agregar_10_productos_al_json()

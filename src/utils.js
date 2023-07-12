@@ -7,4 +7,4 @@ const __dirname = dirname(__filename);
 // console.log(__filename)
 // console.log(__dirname)
 
-export default __dirname; // dirname es el directorio donde se encuentra el archivo
+export default __dirname; // Basicamente, __dirname es el directorio donde se encuentra este archivo
