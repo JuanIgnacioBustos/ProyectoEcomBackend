@@ -27,19 +27,12 @@ app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 
-// routers
-
-app.use("/", routerViews);
-
-app.use("/api/products", routerProducts);
-app.use("/api/carts", routerCarts);
-
 // server start and socket io
 
 const expressServer = app.listen(8080, () => console.log("Servidor levantado"))
 const socketServer = new Server(expressServer)
 
-    socketServer.on("connection", async (socket) => {
+socketServer.on("connection", async (socket) => {
     console.log("Estas conectado " + socket.id)
 
     let productManager = new ProductManager(__dirname + "/files/products.json")
@@ -57,5 +50,18 @@ const socketServer = new Server(expressServer)
     socket.on("delete-product", async (productID) => {
     await productManager.deleteProduct(productID)
     socketServer.emit("update-products", await productManager.getProducts())
+    })
 })
+
+// middleware (all requests have access to socket server)
+
+app.use((req, res, next) => {
+    req.socketServer = socketServer;
+    next();
 })
+
+// routers
+
+app.use("/", routerViews);
+app.use("/api/products", routerProducts);
+app.use("/api/carts", routerCarts);

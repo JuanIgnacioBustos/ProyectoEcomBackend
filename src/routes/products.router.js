@@ -33,6 +33,9 @@ router.post('/', async (req, res) => {
   let newProduct = req.body
 
   await productManager.addProduct(newProduct)
+  
+  const products = await productManager.getProducts()
+  req.socketServer.sockets.emit('update-products', products) // Para que se actualizen los productos en tiempo real
 
   res.send({status: "success"})
 })
