@@ -1,10 +1,8 @@
 import { Router } from "express"
-import ProductManager from '../daos/filesystem/ProductManager.class.js'
+import ProductManager from '../daos/mongodb/ProductManager.class.js'
 import __dirname from "../utils.js"
 
-let path = __dirname + "/files/products.json"
-
-let productManager = new ProductManager(path)
+let productManager = new ProductManager()
 
 const router = Router()
 

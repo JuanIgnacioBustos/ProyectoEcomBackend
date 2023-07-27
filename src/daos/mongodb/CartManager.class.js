@@ -1,55 +1,35 @@
-import fs from 'fs'
-import { v4 as uuidV4 } from 'uuid';
+import mongoose from "mongoose";
+import { cartsModel } from "./models/carts.model.js";
+import ProductManager from "./ProductManager.class.js";
 
 export default class CartManager {
-    constructor(path){
-    this.path = path;
-}
+    connection = mongoose.connect('mongodb+srv://juanignaciobustos7:38410745@coderbackendjb.dkkerkg.mongodb.net/')
 
-    async #loadCartsFromPath() {
-    let carts = []
-
-    if (fs.existsSync(this.path)) {
-
-        let data = await fs.promises.readFile(this.path, "utf-8");
-        carts = JSON.parse(data)
-    }
-
-    return carts
-}
+    productManager = new ProductManager()
 
     async createCart() {
-    let carts = await this.#loadCartsFromPath()
-
-    carts.push({id: uuidV4(), products: []})
-
-    await fs.promises.writeFile(this.path, JSON.stringify(carts, null, '\t'))
-}
+        const result = await cartsModel.create({ products: [] })
+        return result
+    }
 
     async getCartById(id) {
-    let carts = await this.#loadCartsFromPath()
+        const result = await cartsModel.findOne({ _id: id }).populate('products.product')
+        return result
+    }
 
-    return carts.find((cart) => cart.id === id)
-}
+    async getCarts() {
+        const result = await cartsModel.find({})
+        return result
+    }
 
     async addProductToCart(cid, pid) {
-    // cid es el id del carrito, pid es el id del producto
-    let carts = await this.#loadCartsFromPath()
+        const product = await this.productManager.getProductById(pid)
+        const cart = await this.getCartById(cid)
 
-    let cart = carts.find((cart) => cart.id === cid) // Es el carrito al que le voy a agregar el producto
+        cart.products.push({ product: product })
+        await cart.save()
 
-    let product = cart.products.find((prod) => prod.product === pid ) // Es el producto, si existe
-
-    if (!product) {
-        product = {product: pid, quantity: 1}
-
-        cart.products.push(product)
+        return
     }
-    else {
-      product.quantity += 1 // Como el producto ya existe, solo incremento su cantidad en 1
-    }
-
-    await fs.promises.writeFile(this.path, JSON.stringify(carts, null, '\t'))
-}
 
 }

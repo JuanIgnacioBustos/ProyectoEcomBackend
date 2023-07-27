@@ -4,43 +4,37 @@ const collection = 'products';
 
 const ProductSchema = new mongoose.Schema({
     title: {
-    type: String,
-    required: true
-},
+        type: String,
+        required: true
+    },
     description: {
-    type: String,
-    required: true
-},
+        type: String,
+        required: true
+    },
     price: {
-    type: Number,
-    required: true
-},
+        type: Number,
+        required: true
+    },
     thumbnails: {
-    type: [
-        {
-        image_url: {
-            type: String
-        }
-    }
-],
-    default: []
-},
+        type: [],
+        default: []
+    },
     code: {
-    type: Number,
-    required: true,
-    unique: true
-},
+        type: Number,
+        required: true,
+        unique: true
+    },
     stock: {
-    type: Number,
-    required: true
-},
+        type: Number,
+        required: true
+    },
     category: {
-    type: String,
-    required: true
-},
+        type: String,
+        required: true
+    },
     status: {
-    type: String,
-    required: true
+        type: String,
+        required: true
     }
 })
 
