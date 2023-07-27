@@ -1,7 +1,6 @@
-
 import { Router } from 'express';
 import __dirname from "../utils.js"
-import ProductManager from '../classes/ProductManager.class.js';
+import ProductManager from '../daos/filesystem/ProductManager.class.js';
 
 let path = __dirname + "/files/products.json"
 

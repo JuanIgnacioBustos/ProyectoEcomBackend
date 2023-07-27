@@ -1,67 +1,60 @@
-import express from 'express'
-import handlebars from 'express-handlebars'
+import { Router } from "express"
+import ProductManager from '../classes/ProductManager.class.js'
+import __dirname from "../utils.js"
 
-import __dirname from './utils.js'
+let path = __dirname + "/files/products.json"
 
-import routerProducts from './routes/products.router.js' 
-import routerCarts from './routes/carts.router.js'
-import routerViews from './routes/views.router.js'
+let productManager = new ProductManager(path)
 
-import { Server } from "socket.io";
-import ProductManager from './classes/ProductManager.class.js'
+const router = Router()
 
-// initial configuration
+router.get('/', async (req, res) => {
+    let limit = Number(req.query.limit)
 
-const app = express();
+    let products = await productManager.getProducts(limit)
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// static
-
-app.use(express.static(__dirname + "/public"));
-
-// handlebars configuration
-
-app.engine("handlebars", handlebars.engine());
-app.set("views", __dirname + "/views");
-app.set("view engine", "handlebars");
-
-// server start and socket io
-
-const expressServer = app.listen(8080, () => console.log("Servidor levantado"))
-const socketServer = new Server(expressServer)
-
-socketServer.on("connection", async (socket) => {
-    console.log("Estas conectado " + socket.id)
-
-    let productManager = new ProductManager(__dirname + "/files/products.json")
-
-// Se envian todos los productos al conectarse
-    socket.emit("update-products", await productManager.getProducts())
-
-// Se agrega el producto y se vuelven a renderizar para todos los sockets conectados
-    socket.on("add-product", async (productData) => {
-    await productManager.addProduct(productData)
-    socketServer.emit("update-products", await productManager.getProducts())
+  res.send({products}) // Se envian los productos en forma de objeto como pide la consigna
 })
 
-// Se elimina el producto y se vuelven a renderizar para todos los sockets conectados
-    socket.on("delete-product", async (productID) => {
-    await productManager.deleteProduct(productID)
-    socketServer.emit("update-products", await productManager.getProducts())
-    })
+router.get('/:pid', async (req, res) => {
+    let id = req.params.pid
+
+    let product = await productManager.getProductById(id)
+
+    if (!product) {
+    res.send("No se encontró el producto")
+    return
+}
+
+  res.send(product) // Se envian los productos en forma de objeto como pide la consigna
 })
 
-// middleware (all requests have access to socket server)
+router.post('/', async (req, res) => {
+    let newProduct = req.body
 
-app.use((req, res, next) => {
-    req.socketServer = socketServer;
-    next();
+    await productManager.addProduct(newProduct)
+    
+    const products = await productManager.getProducts()
+  req.socketServer.sockets.emit('update-products', products) // Para que se actualizen los productos en tiempo real
+
+    res.send({status: "success"})
 })
 
-// routers
+router.put('/:pid', async (req, res) => {
+    let id = req.params.pid
+    let newProduct = req.body
 
-app.use("/", routerViews);
-app.use("/api/products", routerProducts);
-app.use("/api/carts", routerCarts);
+    await productManager.updateProduct(id, newProduct)
+
+    res.send({status: "success"})
+})
+
+router.delete('/:pid', async (req, res) => {
+    let id = req.params.pid
+
+    await productManager.deleteProduct(id)
+
+    res.send({status: "success"})
+})
+
+export default router

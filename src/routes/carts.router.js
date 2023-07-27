@@ -1,5 +1,5 @@
 import { Router } from "express";
-import CartManager from "../classes/CartManager.class.js";
+import CartManager from "../daos/filesystem/CartManager.class.js";
 import __dirname from "../utils.js";
 
 let path = __dirname + "/files/carts.json"
@@ -16,7 +16,7 @@ router.get('/:cid', async (req, res) => {
     if (!cart) {
     res.send("No se encontró el carrito")
     return
-}
+    }
 
     res.send(cart.products)
 })
