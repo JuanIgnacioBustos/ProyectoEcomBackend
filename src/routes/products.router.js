@@ -28,14 +28,19 @@ router.get('/:pid', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-  let newProduct = req.body
+  try {
+    let newProduct = req.body
 
-  await productManager.addProduct(newProduct)
+    await productManager.addProduct(newProduct)
+    
+    const products = await productManager.getProducts()
+    req.socketServer.sockets.emit('update-products', products) // Para que se actualizen los productos en tiempo real
   
-  const products = await productManager.getProducts()
-  req.socketServer.sockets.emit('update-products', products) // Para que se actualizen los productos en tiempo real
-
-  res.send({status: "success"})
+    res.send({status: "success"})
+  }
+  catch(error) {
+    res.send({status: "failure", details: error.message})
+  }
 })
 
 router.put('/:pid', async (req, res) => {

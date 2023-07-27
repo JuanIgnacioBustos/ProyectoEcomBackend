@@ -5,8 +5,13 @@ export default class ProductManager {
     connection = mongoose.connect('mongodb+srv://juanignaciobustos7:38410745@coderbackendjb.dkkerkg.mongodb.net/')
 
     async addProduct(product) {
+        try {
         let result = await productsModel.create(product)
         return result
+        }
+        catch(error) {
+        throw new Error("Product code is duplicated")
+        }
     }
 
     async getProducts(limit = null) {
