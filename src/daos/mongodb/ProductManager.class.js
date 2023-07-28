@@ -15,9 +15,9 @@ export default class ProductManager {
     }
 
     async getProducts(limit = null) {
-        let result = await productsModel.find({}).limit(limit)
+        let result = await productsModel.find({}).limit(limit).lean()
         return result
-    }
+}
 
     async getProductById(id) {
         let result = await productsModel.findOne({ _id: id })
@@ -25,9 +25,9 @@ export default class ProductManager {
     }
 
     async updateProduct(id, updatedProduct) {
-        let result = await productsModel.updateOne({ _id: id}, { $set: updatedProduct })
-        return result
-    }
+    let result = await productsModel.updateOne({ _id: id}, { $set: updatedProduct })
+    return result
+}
 
     async deleteProduct(id) {
         let result = await productsModel.deleteOne({ _id: id })

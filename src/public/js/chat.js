@@ -8,11 +8,11 @@ let user = ""
 // Identificacion de usuario
 
 Swal.fire({
-    title: "Identificate con tu mail",
-    input: "text",
+    title: "Identifícate con tu email",
+    input: "email",
     inputValidator: (value) => {
         if (!value) {
-        return "Necesitas escribir un mail para identificarte" // Devuelvo el mensaje de error
+        return "Necesitas escribir un email para identificarte" // Devuelvo el mensaje de error
         }
         return false // Se identifico con exito
     },
@@ -43,7 +43,7 @@ messageInput.addEventListener("keypress", (event) => {
     }
 })
 
-    sendMsgBtn.addEventListener('click', () => {
+sendMsgBtn.addEventListener('click', () => {
     socket.emit("new-message", {user: user, message: messageInput.value})
     messageInput.value = ""
 })
