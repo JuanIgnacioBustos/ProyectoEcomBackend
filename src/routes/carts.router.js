@@ -41,7 +41,7 @@ router.post('/:cid/product/:pid', async (req, res) => {
         res.send({status: "success"})
     }
     catch(error) {
-        res.send({status: "failure", details: error.message})
+        res.status(400).send({status: "failure", details: error.message})
     }
 })
 
