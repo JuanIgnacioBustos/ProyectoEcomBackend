@@ -1,6 +1,5 @@
 import { Router } from "express"
 import ProductManager from '../daos/mongodb/ProductManager.class.js'
-import __dirname from "../utils.js"
 
 let productManager = new ProductManager()
 
