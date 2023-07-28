@@ -34,12 +34,12 @@ router.post('/', async (req, res) => {
     await productManager.addProduct(newProduct)
     
     const products = await productManager.getProducts()
-    req.socketServer.sockets.emit('update-products', products) // Para que se actualizen los productos en tiempo real
+    req.socketServer.sockets.emit('update-products', products) // Para que se actualicen los productos en tiempo real
   
     res.send({status: "success"})
   }
   catch(error) {
-    res.send({status: "failure", details: error.message})
+    res.status(400).send({status: "failure", details: error.message})
   }
 })
 
@@ -56,6 +56,9 @@ router.delete('/:pid', async (req, res) => {
   let id = req.params.pid
   
   await productManager.deleteProduct(id)
+
+  const products = await productManager.getProducts()
+  req.socketServer.sockets.emit('update-products', products) // Para que se actualicen los productos en tiempo real
 
   res.send({status: "success"})
 })

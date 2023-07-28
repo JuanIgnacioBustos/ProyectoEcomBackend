@@ -9,16 +9,16 @@ socket.on("update-products", (products) => {
     productsContainer.innerHTML = ""
 
     for (let product of products) {
-    let productElement = document.createElement("div");
-    productElement.innerHTML = `
+        let productElement = document.createElement("div");
+        productElement.innerHTML = `
         <p> Title: ${product.title} </p>
         <p> Description: ${product.description} </p>
         <p> Price: ${product.price} </p>
-        <button id=${product.id} onclick="deleteProduct(this)"> Borrar </button>
-    `
+        <button id=${product._id} onclick="deleteProduct(this)"> Borrar </button>
+        `
 
-    productElement.setAttribute("style", "border: 1px solid #000; border-radius: 1rem; padding: 1rem; margin-bottom: 1rem")
-    productsContainer.appendChild(productElement)
+        productElement.setAttribute("style", "border: 1px solid #000; border-radius: 1rem; padding: 1rem; margin-bottom: 1rem")
+        productsContainer.appendChild(productElement)
     }
 
 })
@@ -28,7 +28,7 @@ socket.on("update-products", (products) => {
 addProductBtn.addEventListener("click", (e) => {
     e.preventDefault()
 
-  // Obtenemos los inputs
+// Obtenemos los inputs
 
     let titleInput = document.getElementById("title")
     let descriptionInput = document.getElementById("description")
@@ -41,14 +41,14 @@ addProductBtn.addEventListener("click", (e) => {
 // Creamos la "data" del producto a partir de los valores de los inputs, y la enviamos
 
     let productData = {
-    title: titleInput.value,
-    description: descriptionInput.value,
-    price: Number(priceInput.value),
-    code: Number(codeInput.value),
-    stock: Number(stockInput.value),
-    category: categoryInput.value,
-    status: (statusInput.value.toLowerCase() === "true")
-}
+        title: titleInput.value,
+        description: descriptionInput.value,
+        price: Number(priceInput.value),
+        code: Number(codeInput.value),
+        stock: Number(stockInput.value),
+        category: categoryInput.value,
+        status: (statusInput.value.toLowerCase() === "true")
+    }
 
     socket.emit("add-product", productData)
 
