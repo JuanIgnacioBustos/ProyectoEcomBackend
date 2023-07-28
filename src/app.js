@@ -50,13 +50,13 @@ socketServer.on("connection", async (socket) => {
     socketServer.emit("update-products", await productManager.getProducts())
   })
 
-// Se elimina el producto y se vuelven a renderizar para todos los sockets conectados
+  // Se elimina el producto y se vuelven a renderizar para todos los sockets conectados
   socket.on("delete-product", async (productID) => {
     await productManager.deleteProduct(productID)
     socketServer.emit("update-products", await productManager.getProducts())
   })
 
-  //////////////// MENSAJES ////////////////
+//////////////// MENSAJES ////////////////
 
   let messageManager = new MessageManager()
 
@@ -64,11 +64,7 @@ socketServer.on("connection", async (socket) => {
   socket.emit("update-messages", await messageManager.getMessages())
 
 // Se agrega el mensaje y se vuelven a renderizar
-  socket.on("new-message", async (message) => {
-    let newMessage = {
-      user: socket.id,
-      message: message
-    }
+  socket.on("new-message", async (newMessage) => {
 
     await messageManager.addMessage(newMessage)
 

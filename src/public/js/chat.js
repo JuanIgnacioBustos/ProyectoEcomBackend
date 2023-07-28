@@ -3,6 +3,24 @@ const socket = io();
 let sendMsgBtn = document.getElementById("send-message-btn")
 let messageInput = document.getElementById("message-input")
 
+let user = ""
+
+// Identificacion de usuario
+
+Swal.fire({
+    title: "Identificate con tu mail",
+    input: "text",
+    inputValidator: (value) => {
+        if (!value) {
+        return "Necesitas escribir un mail para identificarte" // Devuelvo el mensaje de error
+        }
+        return false // Se identifico con exito
+    },
+    allowOutsideClick: false,
+    }).then((result) => {
+    user = result.value;
+});
+
 // Socket.on
 
 socket.on("update-messages", (messages) => {
@@ -25,6 +43,7 @@ messageInput.addEventListener("keypress", (event) => {
     }
 })
 
-sendMsgBtn.addEventListener('click', () => {
-    socket.emit("new-message", messageInput.value)
+    sendMsgBtn.addEventListener('click', () => {
+    socket.emit("new-message", {user: user, message: messageInput.value})
+    messageInput.value = ""
 })
