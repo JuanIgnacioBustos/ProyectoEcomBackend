@@ -11,10 +11,12 @@ import routerViews from './routes/views.router.js'
 import { Server } from "socket.io";
 import ProductManager from './daos/mongodb/ProductManager.class.js'
 import MessageManager from './daos/mongodb/MessageManager.class.js'
+import connectDB from './db.js'
 
 // initial configuration
 
 const app = express();
+connectDB();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -37,14 +39,14 @@ const socketServer = new Server(expressServer)
 socketServer.on("connection", async (socket) => {
   console.log("Estas conectado " + socket.id)
 
-//////////////// PRODUCTOS ////////////////
+  //////////////// PRODUCTOS ////////////////
 
   let productManager = new ProductManager()
 
-// Se envian todos los productos al conectarse
+  // Se envian todos los productos al conectarse
   socket.emit("update-products", await productManager.getProducts())
 
-// Se agrega el producto y se vuelven a renderizar para todos los sockets conectados
+  // Se agrega el producto y se vuelven a renderizar para todos los sockets conectados
   socket.on("add-product", async (productData) => {
     await productManager.addProduct(productData)
     socketServer.emit("update-products", await productManager.getProducts())
@@ -56,14 +58,14 @@ socketServer.on("connection", async (socket) => {
     socketServer.emit("update-products", await productManager.getProducts())
   })
 
-//////////////// MENSAJES ////////////////
+  //////////////// MENSAJES ////////////////
 
   let messageManager = new MessageManager()
 
-// Se envian todos los mensajes al conectarse
+  // Se envian todos los mensajes al conectarse
   socket.emit("update-messages", await messageManager.getMessages())
 
-// Se agrega el mensaje y se vuelven a renderizar
+  // Se agrega el mensaje y se vuelven a renderizar
   socket.on("new-message", async (newMessage) => {
 
     await messageManager.addMessage(newMessage)
