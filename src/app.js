@@ -44,18 +44,23 @@ socketServer.on("connection", async (socket) => {
   let productManager = new ProductManager()
 
   // Se envian todos los productos al conectarse
-  socket.emit("update-products", await productManager.getProducts())
+  let products = await productManager.getProducts()
+  socket.emit("update-products", products.docs)
 
   // Se agrega el producto y se vuelven a renderizar para todos los sockets conectados
   socket.on("add-product", async (productData) => {
     await productManager.addProduct(productData)
-    socketServer.emit("update-products", await productManager.getProducts())
+    
+    products = await productManager.getProducts()
+    socketServer.emit("update-products", products.docs)
   })
 
   // Se elimina el producto y se vuelven a renderizar para todos los sockets conectados
   socket.on("delete-product", async (productID) => {
     await productManager.deleteProduct(productID)
-    socketServer.emit("update-products", await productManager.getProducts())
+
+    products = await productManager.getProducts()
+    socketServer.emit("update-products", products.docs)
   })
 
   //////////////// MENSAJES ////////////////

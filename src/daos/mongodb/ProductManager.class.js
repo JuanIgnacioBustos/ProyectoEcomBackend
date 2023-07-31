@@ -11,8 +11,21 @@ export default class ProductManager {
         }
     }
 
-    async getProducts(limit = null) {
-        let result = await productsModel.find({}).limit(limit).lean()
+    async getProducts(limit = 10, page = 1, sort = 0, filter = null, filterValue = null) {
+        limit = Number(limit)
+        page = Number(page)
+        sort = Number(sort)
+
+        let filterToApply = {}
+        if (filter && filterValue) {
+        filterToApply = {[filter]: filterValue} // [filter] es el contenido de la variable "filter"
+        }
+
+        let result = await productsModel.paginate(
+        filterToApply,
+        { limit: limit, page: page, sort: { price: sort }, lean: true }
+        )
+
         return result
     }
 

@@ -6,11 +6,33 @@ let productManager = new ProductManager()
 const router = Router()
 
 router.get('/', async (req, res) => {
-  let limit = Number(req.query.limit)
+  try {
+    let limit = req.query.limit
+    let page = req.query.page
+    let sort = req.query.sort // Si es "1" es ascendente, si es "-1" es descendente (se ordena por precio)
+    let filter = req.query.filter // Un ejemplo de filter puede ser "category"
+    let filterValue = req.query.filterValue // Un ejemplo de filterValue puede ser "Frutas"
 
-  let products = await productManager.getProducts(limit)
+    let products = await productManager.getProducts(limit, page, sort, filter, filterValue)
 
-  res.send({products}) // Se envian los productos en forma de objeto como pide la consigna
+    let response = {
+      status: "success",
+      payload: products.docs,
+      totalPages: products.totalPages,
+      prevPage: products.prevPage,
+      nextPage: products.nextPage,
+      page: products.page,
+      hasPrevPage: products.hasPrevPage,
+      hasNextPage: products.hasNextPage,
+      prevLink: products.prevLink,
+      nextLink: products.nextLink
+    } // Se utiliza el formato pedido por la consigna
+
+    res.send(response)
+  }
+  catch (error) {
+    res.status(400).send({status: "error", details: "There was an error"})
+  }
 })
 
 router.get('/:pid', async (req, res) => {
@@ -23,7 +45,7 @@ router.get('/:pid', async (req, res) => {
     return
   }
 
-  res.send(product) // Se envian los productos en forma de objeto como pide la consigna
+  res.send(product)
 })
 
 router.post('/', async (req, res) => {
