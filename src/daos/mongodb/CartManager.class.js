@@ -15,7 +15,7 @@ export default class CartManager {
     }
 
     async getCarts() {
-        const result = await cartsModel.find({})
+        const result = await cartsModel.find({}).populate('products.product')
         return result
     }
 
