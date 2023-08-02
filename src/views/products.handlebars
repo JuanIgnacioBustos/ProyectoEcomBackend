@@ -7,7 +7,7 @@
             <p> Title: {{this.title}} </p>
             <p> Description: {{this.description}} </p>
             <p> Price: {{this.price}} </p>
-            <button id={{this._id}}>Agregar al carrito</button>
+            <button id={{this._id}} onclick="addProductToCart(this)">Agregar al carrito</button>
             </div>
         {{/each}}
     </div>
@@ -24,3 +24,20 @@
 {{else}}
     <h1>No hay productos</h1>
 {{/if}}
+
+<script>
+    async function addProductToCart(button) {
+        let productId = button.id
+
+        // DATO: El carrito al que se agrega el producto esta hardcodeado (en este caso se agregan los productos
+        // al carrito de id: 648fdf6a9887ffaaadcc9fc6)
+        try {     
+        const response = await fetch('http://localhost:8080/api/carts/648fdf6a9887ffaaadcc9fc6/product/' + productId, {
+            method: 'post'
+        });
+        } 
+        catch(err) {
+        console.error(`Error: ${err}`);
+        }
+    }
+</script>
