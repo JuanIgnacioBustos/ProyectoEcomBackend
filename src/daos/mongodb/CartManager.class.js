@@ -82,4 +82,10 @@ export default class CartManager {
         return
     }
 
+    async getAllProductsFromCart(id) {
+        const cart = await cartsModel.findOne({ _id: id }).populate('products.product').lean()
+
+        return cart.products
+    }
+
 }
