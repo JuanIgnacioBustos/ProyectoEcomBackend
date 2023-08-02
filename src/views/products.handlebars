@@ -1,0 +1,26 @@
+<h1>Productos: </h1>
+
+{{#if products.docs.length}}
+    <div>
+        {{#each products.docs}}
+            <div style="border: 1px solid #000; border-radius: 1rem; padding: 1rem; margin-bottom: 1rem">
+            <p> Title: {{this.title}} </p>
+            <p> Description: {{this.description}} </p>
+            <p> Price: {{this.price}} </p>
+            <button id={{this._id}}>Agregar al carrito</button>
+            </div>
+        {{/each}}
+    </div>
+    <br/>
+
+    <div>
+        {{#if products.hasPrevPage}}
+            <a href={{products.prevLink}}><<</a>
+        {{/if}}
+        {{#if products.hasNextPage}}
+            <a href={{products.nextLink}}>>></a>
+        {{/if}} 
+    </div>
+{{else}}
+    <h1>No hay productos</h1>
+{{/if}}
