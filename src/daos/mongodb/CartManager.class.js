@@ -43,4 +43,25 @@ export default class CartManager {
         }
     }
 
+    async deleteProductFromCart(cid, pid) {
+        try {
+        const cart = await this.getCartById(cid)
+        cart.products.pull(pid) // Este id no es el del producto como tal, sino el que se genera
+        await cart.save()
+
+        return
+        } 
+        catch(error) {
+        throw new Error("Product does not exist")
+        }
+    }
+
+    async deleteAllProductsFromCart(cid) {
+        const cart = await this.getCartById(cid)
+        cart.products = []
+        await cart.save()
+
+        return
+    }
+
 }

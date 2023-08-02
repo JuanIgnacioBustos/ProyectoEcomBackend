@@ -45,4 +45,26 @@ router.post('/:cid/product/:pid', async (req, res) => {
     }
 })
 
+router.delete('/:cid/product/:pid', async (req, res) => {
+    try {
+        let cartId = req.params.cid
+        let productId = req.params.pid // Este id no es el del producto como tal, sino el que se genera
+
+        await cartManager.deleteProductFromCart(cartId, productId)
+
+        res.send({status: "success"})
+    }
+    catch(error) {
+        res.status(400).send({status: "failure", details: error.message})
+    }
+})
+
+router.delete('/:cid', async (req, res) => {
+    let cartId = req.params.cid
+
+    await cartManager.deleteAllProductsFromCart(cartId)
+
+    res.send({status: "success"})
+})
+
 export default router
