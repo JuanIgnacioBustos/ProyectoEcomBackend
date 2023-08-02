@@ -46,7 +46,7 @@ export default class CartManager {
     async deleteProductFromCart(cid, pid) {
         try {
         const cart = await this.getCartById(cid)
-        cart.products.pull(pid) // Este id no es el del producto como tal, sino el que se genera
+        cart.products = cart.products.filter((prod) => prod.product._id.toString() !== pid )
         await cart.save()
 
         return
@@ -59,6 +59,24 @@ export default class CartManager {
     async deleteAllProductsFromCart(cid) {
         const cart = await this.getCartById(cid)
         cart.products = []
+        await cart.save()
+
+        return
+    }
+
+    async replaceProductsFromCart(cid, newProducts) {
+        const cart = await this.getCartById(cid)
+        cart.products = newProducts
+        await cart.save()
+
+        return
+    }
+
+    async updateProductQuantityFromCart(cid, pid, newQuantity) {
+        const cart = await this.getCartById(cid)
+        let product = cart.products.find((prod) => prod.product._id.toString() === pid )
+        product.quantity = newQuantity
+
         await cart.save()
 
         return

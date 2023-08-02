@@ -45,10 +45,10 @@ router.post('/:cid/product/:pid', async (req, res) => {
     }
 })
 
-router.delete('/:cid/product/:pid', async (req, res) => {
+router.delete('/:cid/products/:pid', async (req, res) => {
     try {
         let cartId = req.params.cid
-        let productId = req.params.pid // Este id no es el del producto como tal, sino el que se genera
+        let productId = req.params.pid
 
         await cartManager.deleteProductFromCart(cartId, productId)
 
@@ -63,6 +63,25 @@ router.delete('/:cid', async (req, res) => {
     let cartId = req.params.cid
 
     await cartManager.deleteAllProductsFromCart(cartId)
+
+    res.send({status: "success"})
+})
+
+router.put('/:cid', async (req, res) => {
+    let cartId = req.params.cid
+    let newProducts = req.body
+
+    await cartManager.replaceProductsFromCart(cartId, newProducts)
+
+    res.send({status: "success"})
+})
+
+router.put('/:cid/products/:pid', async (req, res) => {
+    let cartId = req.params.cid
+    let productId = req.params.pid
+    let newQuantity = req.body.quantity
+
+    await cartManager.updateProductQuantityFromCart(cartId, productId, newQuantity)
 
     res.send({status: "success"})
 })
