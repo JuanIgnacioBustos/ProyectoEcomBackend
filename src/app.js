@@ -7,11 +7,17 @@ import routerProducts from './routes/products.router.js'
 import routerCarts from './routes/carts.router.js'
 import routerMessages from './routes/messages.router.js'
 import routerViews from './routes/views.router.js'
+import routerSession from './routes/session.router.js'
 
 import { Server } from "socket.io";
+
 import ProductManager from './daos/mongodb/ProductManager.class.js'
 import MessageManager from './daos/mongodb/MessageManager.class.js'
+
 import connectDB from './db.js'
+
+import MongoStore from 'connect-mongo'
+import session from 'express-session'
 
 // initial configuration
 
@@ -30,6 +36,17 @@ app.use(express.static(__dirname + "/public"));
 app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
+
+// session
+
+app.use(
+  session({
+    store: new MongoStore({ mongoUrl: "mongodb+srv://martinpolese12:Rn46YL9aT2b7p0FD@ecommerce.bpmbcoi.mongodb.net/" }),
+    secret: "mongoSecret",
+    resave: true,
+    saveUninitialized: false,
+  })
+);
 
 // server start and socket io
 
@@ -89,6 +106,8 @@ app.use((req, res, next) => {
 // routers
 
 app.use("/", routerViews);
+
 app.use("/api/messages", routerMessages);
 app.use("/api/products", routerProducts);
 app.use("/api/carts", routerCarts);
+app.use('/api/sessions', routerSession)
