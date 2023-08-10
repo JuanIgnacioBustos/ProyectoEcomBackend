@@ -47,4 +47,15 @@ router.post("/login", async (req, res) => {
     res.send({status: "success", user: req.session.user})
 })
 
+router.post('/logout', async (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+        return res.status(400).send({status: "error", details: "The session couldn't be destroyed"})
+        }
+
+        res.clearCookie('connect.sid')
+        res.send({status: "sucess"})
+    })
+})
+
 export default router

@@ -1,7 +1,8 @@
 <div>
-    <h2>Hola {{user.name}}</h2>
+    <h2>Bienvenido, {{user.name}}</h2>
     <p>Mail: {{user.email}}</p>
     <p>Rol:  {{user.role}} </p>
+    <button id="logout-btn">Logout</button>
 </div>
 
 <h1>Productos: </h1>
@@ -47,4 +48,15 @@
         console.error(`Error: ${err}`);
         }
     }
+</script>
+
+<script>
+    let logoutButton = document.getElementById("logout-btn")
+
+    logoutButton.addEventListener("click", async (_) => {
+        await fetch('http://localhost:8080/api/sessions/logout', {method: 'post'})
+        .then( res => {
+        return window.location.replace('/login')
+        })
+    })
 </script>
