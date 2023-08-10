@@ -35,7 +35,8 @@ router.get('/products', async (req, res) => {
 
     res.render('products', {
         title: "Products",
-        products: products
+        products: products,
+        user: req.session.user
     })
 })
 
@@ -43,8 +44,6 @@ router.get('/carts/:cid', async (req, res) => {
     let cartId = req.params.cid
 
     let cartProducts = await cartManager.getAllProductsFromCart(cartId)
-
-    // cart.products.forEach((prod) => console.log(prod.product))
 
     res.render('cart', {
         title: "Cart",

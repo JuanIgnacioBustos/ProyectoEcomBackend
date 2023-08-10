@@ -21,6 +21,16 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
     let { email, password } = req.body
 
+    if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
+        req.session.user = {
+        name: "Admin",
+        email: "adminCoder@coder.com",
+        role: "admin"
+        }
+
+        return res.send({status: "success", user: req.session.user})
+    }
+
     let user = await userManager.findUser(email, password)
 
     if (!user) {
@@ -30,7 +40,8 @@ router.post("/login", async (req, res) => {
     req.session.user = {
         name: `${user.first_name} ${user.last_name}`,
         email: user.email,
-        age: user.age
+        age: user.age,
+        role: "user"
     }
 
     res.send({status: "success", user: req.session.user})
