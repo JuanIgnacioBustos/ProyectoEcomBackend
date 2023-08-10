@@ -23,8 +23,6 @@ router.post("/login", async (req, res) => {
 
     let user = await userManager.findUser(email, password)
 
-    console.log(user)
-
     if (!user) {
         return res.status(400).send({status: "error", details: "User can't be found"})
     }

@@ -53,4 +53,8 @@ router.get('/carts/:cid', async (req, res) => {
     })
 })
 
+router.get('/login', async (req, res) => {
+    res.render('login')
+})
+
 export default router;
