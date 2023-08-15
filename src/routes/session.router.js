@@ -7,14 +7,14 @@ const router = Router()
 
 router.post("/register", async (req, res) => {
     try {
-        let userData = req.body
-        
-        await userManager.addUser(userData)
+    let userData = req.body
 
-        res.send({status: "sucess"})
+    await userManager.addUser(userData)
+
+    res.send({status: "sucess"})
     }
     catch(error) {
-        res.status(400).send({status: "error", details: error.message})
+    res.status(400).send({status: "error", details: error.message})
     }
 })
 
@@ -25,6 +25,7 @@ router.post("/login", async (req, res) => {
         req.session.user = {
         name: "Admin",
         email: "adminCoder@coder.com",
+        age: "None",
         role: "admin"
         }
 

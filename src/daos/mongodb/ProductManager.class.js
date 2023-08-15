@@ -15,15 +15,23 @@ export default class ProductManager {
         limit = Number(limit)
         page = Number(page)
         sort = Number(sort)
+        let options;
 
         let filterToApply = {}
         if (filter && filterValue) {
         filterToApply = {[filter]: filterValue} // [filter] es el contenido de la variable "filter"
         }
 
+        if (!sort) {
+        options = { limit: limit, page: page, lean: true }
+        }
+        else {
+        options = { limit: limit, page: page, sort: { price: sort, _id: -1 }, lean: true }
+        }
+
         let result = await productsModel.paginate(
         filterToApply,
-        { limit: limit, page: page, sort: { price: sort, _id: -1 }, lean: true }
+        options
         // Se utiliza el "_id" en el sort para evitar un "bug" que tiene mongoose:
         // https://stackoverflow.com/questions/73300233/mongoose-pagination-with-sort-in-not-working-properly
         )

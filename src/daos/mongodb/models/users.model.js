@@ -24,11 +24,11 @@ const schema = new mongoose.Schema({
         type: String,
         required: true
     },
-    // role: {
-    //   type: String,
-    //   enum: ["user", "admin"],
-    //   default: "user"
-    // }
+        role: {
+        type: String,
+        enum: ["user", "admin"],
+        default: "user"
+        }
 })
 
 export const userModel = mongoose.model(collection, schema)

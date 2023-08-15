@@ -25,18 +25,25 @@ router.get('/chat', async (req, res) => {
 })
 
 router.get('/products', async (req, res) => {
+    let user = req.session.user
+
+    if (!user) {
+        return res.redirect('/login')
+    }
+
     let limit = req.query.limit
     let page = req.query.page
+    let sort = req.query.sort
 
-    let products = await productManager.getProducts(limit, page); 
+    let products = await productManager.getProducts(limit, page, sort); 
 
-    products.prevLink = products.hasPrevPage ? `http://localhost:8080/products?page=${products.prevPage}&limit=${limit}` : '';
-    products.nextLink = products.hasNextPage ? `http://localhost:8080/products?page=${products.nextPage}&limit=${limit}` : '';
+    products.prevLink = products.hasPrevPage ? `http://localhost:8080/products?page=${products.prevPage}&limit=${limit}&sort=${sort}` : '';
+    products.nextLink = products.hasNextPage ? `http://localhost:8080/products?page=${products.nextPage}&limit=${limit}&sort=${sort}` : '';
 
     res.render('products', {
         title: "Products",
         products: products,
-        user: req.session.user
+        user: user
     })
 })
 
