@@ -1,5 +1,6 @@
 import { Router } from "express";
 import UserManager from "../daos/mongodb/UserManager.class.js";
+import { createHash, validatePassword } from "../utils.js";
 
 const userManager = new UserManager()
 
@@ -7,14 +8,16 @@ const router = Router()
 
 router.post("/register", async (req, res) => {
     try {
-    let userData = req.body
+        let userData = req.body
 
-    await userManager.addUser(userData)
+        userData.password = createHash(userData.password) // Se hashea la contrasenia
+        
+        await userManager.addUser(userData)
 
-    res.send({status: "sucess"})
+        res.send({status: "sucess"})
     }
     catch(error) {
-    res.status(400).send({status: "error", details: error.message})
+        res.status(400).send({status: "error", details: error.message})
     }
 })
 
@@ -32,10 +35,17 @@ router.post("/login", async (req, res) => {
         return res.send({status: "success", user: req.session.user})
     }
 
-    let user = await userManager.findUser(email, password)
+    let user = await userManager.findUser(email)
 
     if (!user) {
-        return res.status(400).send({status: "error", details: "User can't be found"})
+
+        return res.status(400).send({status: "error", details: "User couldn't be found"})
+    }
+
+    let isValidPassword = validatePassword(password, user) // Se valida la contrasenia
+
+    if (!isValidPassword) {
+        return res.status(400).send({status: "error", details: "Wrong email or password"})
     }
 
     req.session.user = {

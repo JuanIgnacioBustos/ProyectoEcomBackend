@@ -12,8 +12,8 @@ export default class UserManager {
         }
     }
 
-    async findUser(email, password) {
-        let result = await userModel.findOne({email: email, password: password})
+    async findUser(email) {
+        let result = await userModel.findOne({email: email})
 
         return result
     }
