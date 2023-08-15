@@ -1,5 +1,6 @@
 import passport from "passport";
 import LocalStrategy from "passport-local";
+import GithubStrategy from 'passport-github2'
 
 import { createHash, validatePassword } from "../utils.js";
 import UserManager from "../daos/mongodb/UserManager.class.js";
@@ -8,7 +9,40 @@ const userManager = new UserManager()
 
 const initializePassport = () => {
 
-  // Strategies
+    // Strategies
+
+    passport.use(
+        "github",
+        new GithubStrategy(
+        {
+            clientID: "Iv1.21f46e0098e42d2c",
+            clientSecret: "925b4d22273da192bbe1345c3fdb82978545094c",
+            callbackURL: "http://localhost:8080/api/sessions/githubcallback",
+        },
+        async (accessToken, refreshToken, profile, done) => {
+            // console.log(profile)
+            let user = await userManager.findUser(profile._json.email);
+            
+            if (!user) {
+            let newUser = {
+                // Github no nos da "last_name, age, y password" (por ello se hardcodean los datos)
+                first_name: profile._json.name,
+                last_name: "test-lastname", 
+                email: profile._json.email,
+                age: 25,
+                password: ''
+            };
+
+            const result = await userManager.addUser(newUser);
+
+            done(null, result);
+            } 
+            else {
+            done(null, false);
+            }
+        }
+        )
+    );  
 
     passport.use('login', new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
         if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
@@ -53,11 +87,10 @@ const initializePassport = () => {
         const {first_name, last_name, email, age} = req.body;
 
         try {
-            let user = await userManager.findUser(email);
-
+            let user = await userManager.findUser(email); 
             if (user) {
             // console.log("User alredy exists");
-            return done(null, false); // Quiza mandar error en vez de null
+            return done(null, false); 
             }
 
             let newUser = {

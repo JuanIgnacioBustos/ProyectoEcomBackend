@@ -28,7 +28,7 @@ const schema = new mongoose.Schema({
         type: String,
         enum: ["user", "admin"],
         default: "user"
-        }
+    }
 })
 
 export const userModel = mongoose.model(collection, schema)
