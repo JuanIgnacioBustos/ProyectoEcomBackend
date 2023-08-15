@@ -67,4 +67,8 @@ router.get('/register', async (req, res) => {
     res.render('register')
 })
 
+router.get('/resetPassword',(req,res)=>{
+    res.render('resetPassword');
+})
+
 export default router;
