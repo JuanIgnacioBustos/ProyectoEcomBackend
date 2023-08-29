@@ -115,16 +115,25 @@ router.post('/resetPassword', async (req, res) => {
 
 // github routes
 
-router.get("/github", passport.authenticate("github", { scope: "user:email" }), async (req, res) => {
-    // Vacio (es el link al que mandamos a llamar desde el front)
-    // Es para que pase por el middleware, y en cuanto se pueda acceder al perfil, passport
-    // envia la info hacia el callback especificado
+    router.get("/github", passport.authenticate("github", { scope: "user:email" }), async (req, res) => {
+// Vacio (es el link al que mandamos a llamar desde el front)
+// Es para que pase por el middleware, y en cuanto se pueda acceder al perfil, passport
+// envia la info hacia el callback especificado
 });
 
 router.get('/githubcallback', passport.authenticate('github', {failureRedirect: '/login'}), async (req, res) => {
-    // console.log('Exito')
-        req.session.user = req.user // Quiza agregarle rol
-        res.redirect('/products')
+// console.log('Exito')
+    const user = req.user
+
+    req.session.user = {
+        name: `${user.first_name} ${user.last_name}`,
+        email: user.email,
+        age: user.age,
+        role: "user",
+        id: user._id
+    }
+
+    res.redirect('/products')
 } )
 
 export default router

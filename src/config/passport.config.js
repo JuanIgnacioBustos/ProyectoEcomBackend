@@ -38,9 +38,9 @@ const initializePassport = () => {
             done(null, result);
             } 
             else {
-            done(null, false);
+            done(null, user);
+                }
             }
-        }
         )
     );  
 
