@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import ProductManager from '../daos/mongodb/ProductManager.class.js';
 import CartManager from '../daos/mongodb/CartManager.class.js'
+import passport from 'passport';
 
 let productManager = new ProductManager()
 let cartManager = new CartManager()
@@ -24,8 +25,8 @@ router.get('/chat', async (req, res) => {
     res.render('chat')
 })
 
-router.get('/products', async (req, res) => {
-    let user = req.session.user
+router.get('/products', passport.authenticate("jwt", { session: false }), async (req, res) => {
+    let user = req.user
 
     if (!user) {
         return res.redirect('/login')
@@ -67,7 +68,7 @@ router.get('/register', async (req, res) => {
     res.render('register')
 })
 
-router.get('/resetPassword',(req,res)=>{
+router.get('/resetPassword', async (req, res)=>{
     res.render('resetPassword');
 })
 

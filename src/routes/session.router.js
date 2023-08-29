@@ -1,13 +1,14 @@
 import { Router } from "express";
 import UserManager from "../daos/mongodb/UserManager.class.js";
-import { createHash, validatePassword } from "../utils.js";
+import { createHash } from "../utils.js";
 import passport from "passport";
+import jwt from "jsonwebtoken";
 
 const userManager = new UserManager()
 
 const router = Router()
 
-router.post('/register', passport.authenticate('register', {failureRedirect: 'api/sessions/registerFail'}), async (req, res) => {
+router.post('/register', passport.authenticate('register', {session: false, failureRedirect: 'api/sessions/registerFail'}), async (req, res) => {
     res.send({ status: "success", message: "User has been created"});
 })
 
@@ -30,16 +31,16 @@ router.get('/registerFail', async (req, res) => {
 //   }
 // })
 
-router.post('/login', passport.authenticate('login', {failureRedirect: 'api/sessions/loginFail'}), async (req, res) => {
+router.post('/login', passport.authenticate('login', {session: false, failureRedirect: 'api/sessions/loginFail'}), async (req, res) => {
     let user = req.user // Es el user que recibimos de passport (ver en passport.config.js)
     
     if (!user) {
         return res.status(400).send({status: "error", details: "Invalid credentials"})
-    } 
-    
-    req.session.user = user
+    }
 
-    return res.send({status: "sucess", payload: req.session.user})
+    let token = jwt.sign(req.user, 'coderSecret', {expiresIn: '24h'})
+
+    return res.cookie("authToken", token, {httpOnly: true}).send({status: "success"})
 })
 
 router.get('/loginFail', async (req, res) => {
@@ -84,14 +85,16 @@ router.get('/loginFail', async (req, res) => {
 // })
 
 router.post('/logout', async (req, res) => {
-    req.session.destroy((err) => {
-        if (err) {
-        return res.status(400).send({status: "error", details: "The session couldn't be destroyed"})
-        }
+  // req.session.destroy((err) => {
+  //   if (err) {
+  //     return res.status(400).send({status: "error", details: "The session couldn't be destroyed"})
+  //   }
 
-        res.clearCookie('connect.sid')
-        res.send({status: "sucess"})
-    })
+  //   res.clearCookie('connect.sid')
+  //   res.send({status: "sucess"})
+  // })
+    res.clearCookie('authToken')
+    res.send({status: "sucess"})
 })
 
 router.post('/resetPassword', async (req, res) => {
@@ -115,14 +118,13 @@ router.post('/resetPassword', async (req, res) => {
 
 // github routes
 
-    router.get("/github", passport.authenticate("github", { scope: "user:email" }), async (req, res) => {
-// Vacio (es el link al que mandamos a llamar desde el front)
-// Es para que pase por el middleware, y en cuanto se pueda acceder al perfil, passport
-// envia la info hacia el callback especificado
+router.get("/github", passport.authenticate("github", { scope: "user:email" }), async (req, res) => {
+ // Vacio (es la ruta a la que mandamos a llamar desde el front)
+ // Es para que pase por el middleware, y en cuanto se pueda acceder al perfil, passport
+ // envia la info hacia el callback especificado
 });
 
 router.get('/githubcallback', passport.authenticate('github', {failureRedirect: '/login'}), async (req, res) => {
-// console.log('Exito')
     const user = req.user
 
     req.session.user = {
@@ -134,6 +136,12 @@ router.get('/githubcallback', passport.authenticate('github', {failureRedirect: 
     }
 
     res.redirect('/products')
-} )
+});
+
+// current
+
+router.get("/current", passport.authenticate("jwt", { session: false }), async (req, res) => {
+    res.send(req.user);
+});
 
 export default router
