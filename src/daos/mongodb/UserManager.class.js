@@ -1,6 +1,15 @@
 import { userModel } from "./models/users.model.js";
 
 export default class UserManager {
+
+    async findUserById(id) {
+        try {
+            return await userModel.findById(id);
+        } catch (error) {
+            throw new Error(`Error al buscar el usuario por ID: ${error.message}`);
+        }
+    }
+
     async addUser(user) {
         try {
         let result = await userModel.create(user)
@@ -18,6 +27,8 @@ export default class UserManager {
         return result
     }
 
+
+    
     async updatePassword(email, newPassword) {
         let user = await userModel.findOne({email});
 

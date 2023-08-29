@@ -122,6 +122,9 @@ const initializePassport = () => {
         }
 
         let user = await userManager.findUserById(id);
+        if (!user) {
+            return done(null, false);
+            }
         done(null, user);
     });
 };
