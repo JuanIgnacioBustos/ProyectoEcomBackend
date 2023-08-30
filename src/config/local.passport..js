@@ -17,7 +17,8 @@ const initializePassportLocal = () => {
             email: "adminCoder@coder.com",
             age: "None",
             role: "admin",
-            id: 0
+            id: 0,
+            cart: '6497212e45dc4c65b0998622' // IMPORTANTE: Este carrito esta hardcodeado (es uno al azar)
         }
 
         return done(null, user)
@@ -29,7 +30,7 @@ const initializePassportLocal = () => {
         return done(null, false)
         }
 
-// Ya encontramos al usuario. Validamos y enviamos
+        // Ya encontramos al usuario. Validamos y enviamos
 
         const isValidPassword = await validatePassword(password, user); // Se valida la contrasenia
         
@@ -42,7 +43,8 @@ const initializePassportLocal = () => {
         email: user.email,
         age: user.age,
         role: user.role,
-        id: user._id
+        id: user._id,
+        cart: user.cart
         }
 
         return done(null, user);
