@@ -1,17 +1,15 @@
 import { userModel } from "./models/users.model.js";
+import CartManager from "./CartManager.class.js";
 
 export default class UserManager {
-
-    async findUserById(id) {
-        try {
-            return await userModel.findById(id);
-        } catch (error) {
-            throw new Error(`Error al buscar el usuario por ID: ${error.message}`);
-        }
-    }
+    cartManager = new CartManager()
 
     async addUser(user) {
         try {
+        let newCart = await this.cartManager.createCart()
+
+        user.cart = newCart._id
+
         let result = await userModel.create(user)
 
         return result
@@ -27,8 +25,12 @@ export default class UserManager {
         return result
     }
 
+    async findUserById(id) {
+        let result = await userModel.findOne({_id: id})
 
-    
+        return result
+    }
+
     async updatePassword(email, newPassword) {
         let user = await userModel.findOne({email});
 

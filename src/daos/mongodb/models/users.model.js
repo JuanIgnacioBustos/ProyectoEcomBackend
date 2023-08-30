@@ -24,6 +24,10 @@ const schema = new mongoose.Schema({
         type: String,
         // required: true // Si la dejo en required, hay un en error con Github (la password esta vacia)
         },
+        cart: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'carts'
+        },
         role: {
         type: String,
         enum: ["user", "admin"],
