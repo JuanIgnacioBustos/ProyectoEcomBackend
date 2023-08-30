@@ -11,8 +11,8 @@ import routerSession from './routes/session.router.js'
 
 import { Server } from "socket.io";
 
-import ProductManager from './daos/mongodb/ProductManager.class.js'
-import MessageManager from './daos/mongodb/MessageManager.class.js'
+import ProductManager from './daos/mongodb/managers/ProductManager.class.js'
+import MessageManager from './daos/mongodb/managers/MessageManager.class.js'
 
 import connectDB from './db.js'
 
@@ -60,11 +60,11 @@ const socketServer = new Server(expressServer)
 socketServer.on("connection", async (socket) => {
   console.log("Estas conectado " + socket.id)
 
-  //////////////// PRODUCTOS ////////////////
+//////////////// PRODUCTOS ////////////////
 
   let productManager = new ProductManager()
 
-  // Se envian todos los productos al conectarse
+// Se envian todos los productos al conectarse
   let products = await productManager.getProducts()
   socket.emit("update-products", products.docs)
 
@@ -76,7 +76,7 @@ socketServer.on("connection", async (socket) => {
     socketServer.emit("update-products", products.docs)
   })
 
-  // Se elimina el producto y se vuelven a renderizar para todos los sockets conectados
+// Se elimina el producto y se vuelven a renderizar para todos los sockets conectados
   socket.on("delete-product", async (productID) => {
     await productManager.deleteProduct(productID)
 
@@ -84,14 +84,14 @@ socketServer.on("connection", async (socket) => {
     socketServer.emit("update-products", products.docs)
   })
 
-  //////////////// MENSAJES ////////////////
+//////////////// MENSAJES ////////////////
 
   let messageManager = new MessageManager()
 
-  // Se envian todos los mensajes al conectarse
+// Se envian todos los mensajes al conectarse
   socket.emit("update-messages", await messageManager.getMessages())
 
-  // Se agrega el mensaje y se vuelven a renderizar
+// Se agrega el mensaje y se vuelven a renderizar
   socket.on("new-message", async (newMessage) => {
 
     await messageManager.addMessage(newMessage)
@@ -100,7 +100,7 @@ socketServer.on("connection", async (socket) => {
   })
 })
 
-// middleware 
+// middleware
 
 app.use((req, res, next) => {
   req.socketServer = socketServer;

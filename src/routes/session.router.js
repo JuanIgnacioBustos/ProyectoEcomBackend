@@ -1,89 +1,75 @@
-import { Router } from "express";
-import UserManager from "../daos/mongodb/UserManager.class.js";
-import { createHash } from "../utils.js";
-import passport from "passport";
-import jwt from "jsonwebtoken";
+import { Router } from 'express';
+import ProductManager from '../daos/mongodb/managers/ProductManager.class.js';
+import CartManager from '../daos/mongodb/managers/CartManager.class.js'
+import passport from 'passport';
 
-const userManager = new UserManager()
+let productManager = new ProductManager()
+let cartManager = new CartManager()
 
-const router = Router()
+const router = Router();
 
-router.post('/register', passport.authenticate('register', {session: false, failureRedirect: 'api/sessions/registerFail'}), async (req, res) => {
-    res.send({ status: "success", message: "User has been created"});
+router.get('/', async (req, res) => {
+    let products = await productManager.getProducts();
+
+    res.render('home', {
+        title: "Inicio",
+        products: products.docs
+    });
 })
 
-router.get('/registerFail', async (req, res) => {
-    res.status(400).send({status: "error", error: "Authentication failed"})
+router.get('/realtimeproducts', async (req, res) => {
+    res.render('realTimeProducts');
 })
 
-router.post('/login', passport.authenticate('login', {session: false, failureRedirect: 'api/sessions/loginFail'}), async (req, res) => {
-    let user = req.user 
-    
+router.get('/chat', async (req, res) => {
+    res.render('chat')
+})
+
+router.get('/products', passport.authenticate("jwt", { session: false }), async (req, res) => {
+    let user = req.user
+
     if (!user) {
-        return res.status(400).send({status: "error", details: "Invalid credentials"})
+        return res.redirect('/login')
     }
 
-    let token = jwt.sign(req.user, 'coderSecret', {expiresIn: '24h'})
+    let limit = req.query.limit
+    let page = req.query.page
+    let sort = req.query.sort
 
-    return res.cookie("authToken", token, {httpOnly: true}).send({status: "success"})
+    let products = await productManager.getProducts(limit, page, sort); 
+
+    products.prevLink = products.hasPrevPage ? `http://localhost:8080/products?page=${products.prevPage}&limit=${limit}&sort=${sort}` : '';
+    products.nextLink = products.hasNextPage ? `http://localhost:8080/products?page=${products.nextPage}&limit=${limit}&sort=${sort}` : '';
+
+    res.render('products', {
+        title: "Products",
+        products: products,
+        user: user
+    })
 })
 
-router.get('/loginFail', async (req, res) => {
-    res.status(400).send({status:"error", details: "Login failed"});
+router.get('/carts/:cid', async (req, res) => {
+    let cartId = req.params.cid
+
+    let cartProducts = await cartManager.getAllProductsFromCart(cartId)
+
+    res.render('cart', {
+        title: "Cart",
+        cartProducts: cartProducts,
+        cartId: cartId
+    })
 })
 
-router.post('/logout', async (req, res) => {
-    res.clearCookie('authToken')
-    res.send({status: "sucess"})
+router.get('/login', async (req, res) => {
+    res.render('login')
 })
 
-router.post('/resetPassword', async (req, res) => {
-    const {email, password} = req.body;
-
-    if (!email || !password) {
-        return res.status(400).send({status: "error", error: "Incomplete values"});
-    }
-
-    try {
-        const newHashedPassword = createHash(password);
-
-        await userManager.updatePassword(email, newHashedPassword)
-
-        return res.send({status: "success", message: "Password updated"});
-    }
-    catch(error) {
-        return res.status(404).send({status: "error", error: error.message});
-    }
+router.get('/register', async (req, res) => {
+    res.render('register')
 })
 
-// github routes
+router.get('/resetPassword', async (req, res)=>{
+    res.render('resetPassword');
+})
 
-router.get("/github", passport.authenticate("github", { scope: "user:email", session: false}), async (req, res) => {
-// Vacio (es la ruta a la que mandamos a llamar desde el front)
-// Es para que pase por el middleware, y en cuanto se pueda acceder al perfil, passport
-// envia la info hacia el callback especificado
-});
-
-router.get('/githubcallback', passport.authenticate('github', {failureRedirect: '/login', session: false}), async (req, res) => {
-
-    const user = {
-        name: `${req.user.first_name} ${req.user.last_name}`,
-        email: req.user.email,
-        age: req.user.age,
-        role: req.user.role,
-        id: req.user._id,
-        cart: req.user.cart
-    }
-
-    let token = jwt.sign(user, 'coderSecret', {expiresIn: '24h'})
-
-    return res.cookie("authToken", token, {httpOnly: true}).redirect('/products')
-});
-
-// current
-
-router.get("/current", passport.authenticate("jwt", { session: false }), async (req, res) => {
-    res.send(req.user);
-});
-
-export default router
+export default router;

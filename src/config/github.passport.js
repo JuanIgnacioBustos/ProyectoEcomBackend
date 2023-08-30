@@ -1,7 +1,7 @@
 import passport from "passport";
 import GithubStrategy from 'passport-github2'
 
-import UserManager from "../daos/mongodb/UserManager.class.js";
+import UserManager from "../daos/mongodb/managers/UserManager.class.js";
 
 const userManager = new UserManager()
 

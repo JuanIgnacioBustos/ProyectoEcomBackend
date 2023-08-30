@@ -2,7 +2,7 @@ import passport from "passport";
 import LocalStrategy from "passport-local";
 
 import { createHash, validatePassword } from "../utils.js";
-import UserManager from "../daos/mongodb/UserManager.class.js";
+import UserManager from "../daos/mongodb/managers/UserManager.class.js";
 
 const userManager = new UserManager()
 
@@ -55,10 +55,10 @@ const initializePassportLocal = () => {
         const {first_name, last_name, email, age} = req.body;
 
         try {
-            let user = await userManager.findUser(email);
+            let user = await userManager.findUser(email); 
 
             if (user) {
-            return done(null, false);
+            return done(null, false); 
             }
 
             let newUser = {

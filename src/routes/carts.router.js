@@ -1,5 +1,5 @@
 import { Router } from "express";
-import CartManager from "../daos/mongodb/CartManager.class.js";
+import CartManager from "../daos/mongodb/managers/CartManager.class.js";
 import __dirname from "../utils.js";
 
 let cartManager = new CartManager()
