@@ -17,17 +17,18 @@ const schema = new mongoose.Schema({
         unique: true
         },
         age: {
-        type: String,
+        type: Number,
         required: true
         },
         password: {
         type: String,
-        required: true
-    },
+        // required: true // Si la dejo en required, hay un en error con Github (la password esta vacia)
+        },
         role: {
         type: String,
         enum: ["user", "admin"],
-        default: "user"
+        default: "user",
+        required: true
     }
 })
 

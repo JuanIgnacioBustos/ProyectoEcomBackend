@@ -40,21 +40,6 @@ const initializePassportGithub = () => {
         }
         )
     );  
-
-  // Serialization
-
-  // passport.serializeUser((user, done) => {
-  //   done(null, user.id);
-  // });
-
-  // passport.deserializeUser(async (id, done) => {
-  //   if (id === 0) {
-  //     return done(null, {name: "Admin", role: "admin"})
-  //   }
-
-  //   let user = await userManager.findUserById(id);
-  //   done(null, user);
-  // });
 };
 
 export default initializePassportGithub;

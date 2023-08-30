@@ -17,7 +17,7 @@ router.get('/registerFail', async (req, res) => {
 })
 
 router.post('/login', passport.authenticate('login', {session: false, failureRedirect: 'api/sessions/loginFail'}), async (req, res) => {
-    let user = req.user // Es el user que recibimos de passport (ver en passport.config.js)
+    let user = req.user 
     
     if (!user) {
         return res.status(400).send({status: "error", details: "Invalid credentials"})
@@ -33,14 +33,6 @@ router.get('/loginFail', async (req, res) => {
 })
 
 router.post('/logout', async (req, res) => {
-  // req.session.destroy((err) => {
-  //   if (err) {
-  //     return res.status(400).send({status: "error", details: "The session couldn't be destroyed"})
-  //   }
-
-  //   res.clearCookie('connect.sid')
-  //   res.send({status: "sucess"})
-  // })
     res.clearCookie('authToken')
     res.send({status: "sucess"})
 })
@@ -49,19 +41,19 @@ router.post('/resetPassword', async (req, res) => {
     const {email, password} = req.body;
 
     if (!email || !password) {
-    return res.status(400).send({status: "error", error: "Incomplete values"});
+        return res.status(400).send({status: "error", error: "Incomplete values"});
     }
 
     try {
-    const newHashedPassword = createHash(password);
+        const newHashedPassword = createHash(password);
 
-    await userManager.updatePassword(email, newHashedPassword)
+        await userManager.updatePassword(email, newHashedPassword)
 
-    return res.send({status: "success", message: "Password updated"});
+        return res.send({status: "success", message: "Password updated"});
     }
     catch(error) {
-    return res.status(404).send({status: "error", error: error.message});
-}
+        return res.status(404).send({status: "error", error: error.message});
+    }
 })
 
 // github routes
@@ -78,7 +70,7 @@ router.get('/githubcallback', passport.authenticate('github', {failureRedirect: 
         name: `${req.user.first_name} ${req.user.last_name}`,
         email: req.user.email,
         age: req.user.age,
-        role: "user",
+        role: req.user.role,
         id: req.user._id
     }
 

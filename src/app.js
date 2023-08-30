@@ -16,17 +16,12 @@ import MessageManager from './daos/mongodb/MessageManager.class.js'
 
 import connectDB from './db.js'
 
-import MongoStore from 'connect-mongo'
-import session from 'express-session'
-
 import cookieParser from 'cookie-parser'
 
 import passport from 'passport'
 import initializePassportGithub from './config/github.passport.js'
 import initializePassportLocal from './config/local.passport.js'
 import { initializePassportJWT } from './config/jwt.passport.js'
-
-
 
 // initial configuration
 
@@ -46,17 +41,6 @@ app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 
-// session
-
-// app.use(
-//   session({
-//     store: new MongoStore({ mongoUrl: "mongodb+srv://juanignaciobustos7:38410745@coderbackendjb.dkkerkg.mongodb.net/" }),
-//     secret: "mongoSecret",
-//     resave: true,
-//     saveUninitialized: false,
-//   })
-// );
-
 // cookies
 
 app.use(cookieParser())
@@ -67,7 +51,6 @@ initializePassportGithub()
 initializePassportLocal()
 initializePassportJWT()
 app.use(passport.initialize())
-// app.use(passport.session())
 
 // server start and socket io
 
@@ -117,7 +100,7 @@ socketServer.on("connection", async (socket) => {
   })
 })
 
-// middleware
+// middleware 
 
 app.use((req, res, next) => {
   req.socketServer = socketServer;

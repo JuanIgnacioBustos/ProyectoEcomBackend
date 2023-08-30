@@ -8,7 +8,7 @@ const ExtractJWT = jwt.ExtractJwt;
 
 export const initializePassportJWT = () => {
     passport.use(
-        "jwt",
+        "jwt", // En la consigna creo que se pide que se llame "current" a la estrategia
         new JWTStrategy(
         {
             jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),

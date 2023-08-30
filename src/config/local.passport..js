@@ -29,7 +29,7 @@ const initializePassportLocal = () => {
         return done(null, false)
         }
 
-        // Ya encontramos al usuario. Validamos y enviamos
+// Ya encontramos al usuario. Validamos y enviamos
 
         const isValidPassword = await validatePassword(password, user); // Se valida la contrasenia
         
@@ -41,7 +41,7 @@ const initializePassportLocal = () => {
         name: `${user.first_name} ${user.last_name}`,
         email: user.email,
         age: user.age,
-        role: "user",
+        role: user.role,
         id: user._id
         }
 
@@ -53,10 +53,10 @@ const initializePassportLocal = () => {
         const {first_name, last_name, email, age} = req.body;
 
         try {
-            let user = await userManager.findUser(email); // Podria usar "username", pero es lo mismo
+            let user = await userManager.findUser(email);
 
             if (user) {
-            return done(null, false); // Quiza mandar error en vez de null
+            return done(null, false);
             }
 
             let newUser = {
@@ -75,21 +75,6 @@ const initializePassportLocal = () => {
             return done("Error at user signup" + error);
         }
     }));
-
-  // Serialization
-
-  // passport.serializeUser((user, done) => {
-  //   done(null, user.id);
-  // });
-
-  // passport.deserializeUser(async (id, done) => {
-  //   if (id === 0) {
-  //     return done(null, {name: "Admin", role: "admin"})
-  //   }
-
-  //   let user = await userManager.findUserById(id);
-  //   done(null, user);
-  // });
 };
 
 export default initializePassportLocal;
