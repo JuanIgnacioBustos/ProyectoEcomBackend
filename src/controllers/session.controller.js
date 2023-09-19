@@ -20,7 +20,7 @@ const login = async (req, res) => {
         return res.status(400).send({status: "error", details: "Invalid credentials"})
     }
 
-    let token = jwt.sign(req.user, 'coderSecret', {expiresIn: '24h'})
+    let token = jwt.sign(req.user, config.JWT_SECRET, {expiresIn: '24h'})
 
     return res.cookie("authToken", token, {httpOnly: true}).send({status: "success"})
 }
