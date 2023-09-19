@@ -55,7 +55,7 @@ const deleteProductFromCart = async (req, res) => {
     }
 }
 
-const deleteCart = async (req, res) => {
+const deleteAllProductsFromCart = async (req, res) => {
     let cartId = req.params.cid
 
     await cartManager.deleteAllProductsFromCart(cartId)
@@ -88,7 +88,7 @@ export default {
     createCart,
     addProductToCart,
     deleteProductFromCart,
-    deleteCart,
+    deleteAllProductsFromCart,
     replaceProductsFromCart,
     updateProductQuantityFromCart
 }

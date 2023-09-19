@@ -14,7 +14,7 @@ router.post('/:cid/product/:pid', cartsController.addProductToCart)
 
 router.delete('/:cid/products/:pid', cartsController.deleteProductFromCart)
 
-router.delete('/:cid', cartsController.deleteCart)
+router.delete('/:cid', cartsController.deleteAllProductsFromCart)
 
 router.put('/:cid', cartsController.replaceProductsFromCart)
 
