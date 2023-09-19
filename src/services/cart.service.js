@@ -41,4 +41,10 @@ export default class CartService {
     async updateProductQuantityFromCart(cartId, productId, newQuantity) {
         await this.cartDao.updateProductQuantityFromCart(cartId, productId, newQuantity)
     }
+
+    async getAllProductsFromCart(cartId) {
+        let products = await this.cartDao.getAllProductsFromCart(cartId)
+
+        return products
+    }
 }

@@ -1,6 +1,7 @@
 import passport from "passport";
 import GithubStrategy from 'passport-github2'
 import config from "../config.js";
+
 import UserService from "../services/user.service.js";
 
 let userService = new UserService()
@@ -35,7 +36,7 @@ const initializePassportGithub = () => {
             done(null, result);
             } 
             else {
-            done(null, user); 
+            done(null, user);
             }
         }
         )

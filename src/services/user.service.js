@@ -11,7 +11,7 @@ export default class UserService {
     }
 
     async findUser(email) {
-        let user = this.userDao.findUser(email)
+        let user = await this.userDao.findUser(email)
 
         return user
     }
