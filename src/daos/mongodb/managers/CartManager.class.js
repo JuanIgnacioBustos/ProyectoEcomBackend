@@ -1,8 +1,6 @@
 import { cartsModel } from "../models/carts.model.js";
-import ProductManager from "./ProductManager.class.js";
 
 export default class CartManager {
-    productManager = new ProductManager()
 
     async createCart() {
         const result = await cartsModel.create({ products: [] })
@@ -19,16 +17,14 @@ export default class CartManager {
         return result
     }
 
-    async addProductToCart(cid, pid) {
+    async addProductToCart(cid, newProduct) {
         try {
         const cart = await this.getCartById(cid)
 
-        let product = cart.products.find((prod) => prod.product._id.toString() === pid ) // Es el producto, si existe
+        let product = cart.products.find((prod) => prod.product._id.toString() === newProduct._id.toString() ) // Es el producto, si existe
 
         if (!product) {
-            let newProduct = await this.productManager.getProductById(pid)
-
-            cart.products.push({ product: newProduct, quantity: 1 })
+            cart.products.push({ product: newProduct, quantity: 1 }) // Como el producto no existia anteriormente, se agrega
         }
         else {
             product.quantity += 1 // Como el producto ya existe, solo incremento su cantidad en 1

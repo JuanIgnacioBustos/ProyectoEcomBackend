@@ -1,9 +1,11 @@
 import CartManager from "../daos/mongodb/managers/CartManager.class.js";
+import ProductService from "./products.service.js"
 
 export default class CartService {
 
     constructor() {
         this.cartDao = new CartManager() 
+        this.productService = new ProductService()
     }
 
     async getCarts() {
@@ -23,7 +25,9 @@ export default class CartService {
     }
 
     async addProductToCart(cartId, productId) {
-        await this.cartDao.addProductToCart(cartId, productId)
+        let product = await this.productService.getProductById(productId)
+        
+        await this.cartDao.addProductToCart(cartId, product)
     }
 
     async deleteProductFromCart(cartId, productId) {
