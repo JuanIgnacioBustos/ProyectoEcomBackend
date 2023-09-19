@@ -1,15 +1,10 @@
 import { userModel } from "../models/users.model.js";
-import CartManager from "./CartManager.class.js";
 
 export default class UserManager {
 
-    cartManager = new CartManager()
-
-    async addUser(user) {
+    async addUser(user, cart) {
         try {
-        let newCart = await this.cartManager.createCart()
-
-        user.cart = newCart._id
+        user.cart = cart._id
 
         let result = await userModel.create(user)
 

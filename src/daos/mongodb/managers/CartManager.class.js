@@ -25,6 +25,7 @@ export default class CartManager {
 
         if (!product) {
             cart.products.push({ product: newProduct, quantity: 1 }) // Como el producto no existia anteriormente, se agrega
+            // Se podria pasar el _id en vez del producto entero y funcionaria igual (product: newProduct._id)
         }
         else {
             product.quantity += 1 // Como el producto ya existe, solo incremento su cantidad en 1

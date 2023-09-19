@@ -21,7 +21,9 @@ export default class CartService {
     }
 
     async createCart() {
-        await this.cartDao.createCart()
+        let cart = await this.cartDao.createCart()
+
+        return cart
     }
 
     async addProductToCart(cartId, productId) {

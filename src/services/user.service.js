@@ -1,13 +1,19 @@
 import UserManager from "../daos/mongodb/managers/UserManager.class.js";
+import CartService from "../services/cart.service.js"
 
 export default class UserService {
 
     constructor() {
         this.userDao = new UserManager()
+        this.cartService = new CartService()
     }
 
     async addUser(newUser) {
-        await this.userDao.addUser(newUser)
+        let newCart = await this.cartService.createCart()
+
+        let user = await this.userDao.addUser(newUser, newCart)
+
+        return user
     }
 
     async findUser(email) {
