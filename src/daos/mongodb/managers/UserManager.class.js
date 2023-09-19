@@ -2,6 +2,7 @@ import { userModel } from "../models/users.model.js";
 import CartManager from "./CartManager.class.js";
 
 export default class UserManager {
+
     cartManager = new CartManager()
 
     async addUser(user) {

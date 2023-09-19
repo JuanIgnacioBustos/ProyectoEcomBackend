@@ -1,9 +1,9 @@
-import UserManager from "../daos/mongodb/managers/UserManager.class.js";
 import { createHash } from "../utils.js";
 import jwt from "jsonwebtoken";
 import config from "../config.js";
+import UserService from "../services/user.service.js";
 
-const userManager = new UserManager()
+const userService = new UserService()
 
 const register = async (req, res) => {
     res.send({ status: "success", message: "User has been created"});
@@ -44,7 +44,7 @@ const resetPassword = async (req, res) => {
     try {
         const newHashedPassword = createHash(password);
 
-        await userManager.updatePassword(email, newHashedPassword)
+        await userService.updatePassword(email, newHashedPassword)
 
         return res.send({status: "success", message: "Password updated"});
     }

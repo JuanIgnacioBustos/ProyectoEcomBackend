@@ -2,10 +2,11 @@ import passport from "passport";
 import LocalStrategy from "passport-local";
 
 import { createHash, validatePassword } from "../utils.js";
-import UserManager from "../daos/mongodb/managers/UserManager.class.js";
 import config from "../config.js";
 
-const userManager = new UserManager()
+import UserService from "../services/user.service.js";
+
+const userService = new UserService()
 
 const initializePassportLocal = () => {
 
@@ -25,7 +26,7 @@ const initializePassportLocal = () => {
         return done(null, user)
         }
 
-        let user = await userManager.findUser(email)
+        let user = await userService.findUser(email)
 
         if (!user) {
         return done(null, false)
@@ -56,7 +57,7 @@ const initializePassportLocal = () => {
         const {first_name, last_name, email, age} = req.body;
 
         try {
-            let user = await userManager.findUser(email); 
+            let user = await userService.findUser(email); 
 
             if (user) {
             return done(null, false); 
@@ -70,7 +71,7 @@ const initializePassportLocal = () => {
             password: createHash(password)
             };
 
-            let result = await userManager.addUser(newUser);
+            let result = await userService.addUser(newUser);
 
             return done(null, result);
         }

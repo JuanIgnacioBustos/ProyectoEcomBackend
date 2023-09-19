@@ -1,10 +1,9 @@
 import passport from "passport";
 import GithubStrategy from 'passport-github2'
 import config from "../config.js";
+import UserService from "../services/user.service.js";
 
-import UserManager from "../daos/mongodb/managers/UserManager.class.js";
-
-const userManager = new UserManager()
+let userService = new UserService()
 
 const initializePassportGithub = () => {
 
@@ -19,7 +18,7 @@ const initializePassportGithub = () => {
             callbackURL: "http://localhost:8080/api/sessions/githubcallback",
         },
         async (accessToken, refreshToken, profile, done) => {
-            let user = await userManager.findUser(profile._json.email);
+            let user = await userService.findUser(profile._json.email);
             
             if (!user) {
             let newUser = {
@@ -31,12 +30,12 @@ const initializePassportGithub = () => {
                 password: ''
             };
 
-            const result = await userManager.addUser(newUser);
+            const result = await userService.addUser(newUser);
 
             done(null, result);
             } 
             else {
-            done(null, user);
+            done(null, user); 
             }
         }
         )
