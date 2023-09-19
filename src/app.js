@@ -1,7 +1,10 @@
 import express from 'express'
+
 import handlebars from 'express-handlebars'
 
 import __dirname from './utils.js'
+
+import config from './config.js'
 
 import routerProducts from './routes/products.router.js' 
 import routerCarts from './routes/carts.router.js'
@@ -54,17 +57,17 @@ app.use(passport.initialize())
 
 // server start and socket io
 
-const expressServer = app.listen(8080, () => console.log("Servidor levantado"))
+const expressServer = app.listen(config.PORT, () => console.log("Servidor levantado"))
 const socketServer = new Server(expressServer)
 
 socketServer.on("connection", async (socket) => {
   console.log("Estas conectado " + socket.id)
 
-//////////////// PRODUCTOS ////////////////
+  //////////////// PRODUCTOS ////////////////
 
   let productManager = new ProductManager()
 
-// Se envian todos los productos al conectarse
+  // Se envian todos los productos al conectarse
   let products = await productManager.getProducts()
   socket.emit("update-products", products.docs)
 
@@ -76,7 +79,7 @@ socketServer.on("connection", async (socket) => {
     socketServer.emit("update-products", products.docs)
   })
 
-// Se elimina el producto y se vuelven a renderizar para todos los sockets conectados
+  // Se elimina el producto y se vuelven a renderizar para todos los sockets conectados
   socket.on("delete-product", async (productID) => {
     await productManager.deleteProduct(productID)
 
@@ -84,14 +87,14 @@ socketServer.on("connection", async (socket) => {
     socketServer.emit("update-products", products.docs)
   })
 
-//////////////// MENSAJES ////////////////
+  //////////////// MENSAJES ////////////////
 
   let messageManager = new MessageManager()
 
-// Se envian todos los mensajes al conectarse
+  // Se envian todos los mensajes al conectarse
   socket.emit("update-messages", await messageManager.getMessages())
 
-// Se agrega el mensaje y se vuelven a renderizar
+  // Se agrega el mensaje y se vuelven a renderizar
   socket.on("new-message", async (newMessage) => {
 
     await messageManager.addMessage(newMessage)
@@ -100,7 +103,7 @@ socketServer.on("connection", async (socket) => {
   })
 })
 
-// middleware
+// middleware (all requests have access to socket server)
 
 app.use((req, res, next) => {
   req.socketServer = socketServer;
