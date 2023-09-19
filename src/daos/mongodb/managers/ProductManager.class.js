@@ -1,6 +1,7 @@
 import { productsModel } from '../models/products.model.js'
 
 export default class ProductManager {
+
     async addProduct(product) {
         try {
         let result = await productsModel.create(product)
@@ -53,4 +54,5 @@ export default class ProductManager {
         let result = await productsModel.deleteOne({ _id: id })
         return result
     }
+
 }

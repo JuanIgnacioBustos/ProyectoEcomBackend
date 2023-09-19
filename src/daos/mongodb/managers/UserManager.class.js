@@ -1,10 +1,15 @@
 import { userModel } from "../models/users.model.js";
+import CartManager from "./CartManager.class.js";
 
 export default class UserManager {
 
-    async addUser(user, cart) {
+    cartManager = new CartManager()
+
+    async addUser(user) {
         try {
-        user.cart = cart._id
+        let newCart = await this.cartManager.createCart()
+
+        user.cart = newCart._id
 
         let result = await userModel.create(user)
 
@@ -36,4 +41,5 @@ export default class UserManager {
 
         await userModel.updateOne({_id: user._id}, {$set: {password: newPassword}});
     }
+
 }
