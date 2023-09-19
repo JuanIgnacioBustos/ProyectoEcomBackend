@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
+import config from "./config.js";
 
 const connectDB = async () => {
     try {
         await mongoose.connect(
-        "mongodb+srv://juanignaciobustos7:38410745@coderbackendjb.dkkerkg.mongodb.net/"
+        config.MONGO_URL
         );
         console.log("Conexión exitosa a la base de datos");
     } 

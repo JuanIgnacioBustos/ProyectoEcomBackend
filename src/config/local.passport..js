@@ -3,6 +3,7 @@ import LocalStrategy from "passport-local";
 
 import { createHash, validatePassword } from "../utils.js";
 import UserManager from "../daos/mongodb/managers/UserManager.class.js";
+import config from "../config.js";
 
 const userManager = new UserManager()
 
@@ -11,10 +12,10 @@ const initializePassportLocal = () => {
 // Strategies
 
     passport.use('login', new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
-        if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
+        if (email === config.ADMIN_NAME && password === config.ADMIN_PASSWORD) {
         let user = {
             name: "Admin",
-            email: "adminCoder@coder.com",
+            email: config.ADMIN_NAME,
             age: "None",
             role: "admin",
             id: 0,

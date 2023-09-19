@@ -1,5 +1,6 @@
 import passport from "passport";
 import GithubStrategy from 'passport-github2'
+import config from "../config.js";
 
 import UserManager from "../daos/mongodb/managers/UserManager.class.js";
 
@@ -13,8 +14,8 @@ const initializePassportGithub = () => {
         "github",
         new GithubStrategy(
         {
-            clientID: "Iv1.21f46e0098e42d2c",
-            clientSecret: "925b4d22273da192bbe1345c3fdb82978545094c",
+            clientID: config.GITHUB_CLIENT_ID,
+            clientSecret: config.GITHUB_CLIENT_SECRET,
             callbackURL: "http://localhost:8080/api/sessions/githubcallback",
         },
         async (accessToken, refreshToken, profile, done) => {
@@ -35,7 +36,7 @@ const initializePassportGithub = () => {
             done(null, result);
             } 
             else {
-            done(null, user); // Quiza deberia mandar el user (el profe no lo hizo, lo dejo asi)
+            done(null, user);
             }
         }
         )

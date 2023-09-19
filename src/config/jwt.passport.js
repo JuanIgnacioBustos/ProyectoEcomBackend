@@ -1,5 +1,6 @@
 import passport from "passport";
 import jwt from "passport-jwt";
+import config from "../config.js";
 
 const JWTStrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;
@@ -8,11 +9,11 @@ const ExtractJWT = jwt.ExtractJwt;
 
 export const initializePassportJWT = () => {
     passport.use(
-        "jwt", // En la consigna creo que se pide que se llame "current" a la estrategia
+        "jwt",
         new JWTStrategy(
         {
             jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
-            secretOrKey: "coderSecret",
+            secretOrKey: config.JWT_SECRET,
         },
         async (jwtPayload, done) => {
             try {
