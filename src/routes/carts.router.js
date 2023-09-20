@@ -19,7 +19,7 @@ router.post(
     userRoleAuth,
     verifyCartAccess,
     cartsController.addProductToCart
-) // Solo se pueden agregar productos al carrito de uno mismo
+) // Solo los usuarios se pueden agregar productos al carrito, y solo a los de uno mismo
 
 router.delete('/:cid/products/:pid', cartsController.deleteProductFromCart)
 
