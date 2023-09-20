@@ -1,5 +1,6 @@
 import CartService from "../services/cart.service.js";
 import TicketService from "../services/ticket.service.js"
+import { v4 as uuidV4 } from "uuid"
 
 let cartService = new CartService()
 let ticketService = new TicketService()
@@ -85,10 +86,12 @@ const updateProductQuantityFromCart = async (req, res) => {
 }
 
 const purchaseProductsFromCart = async (req, res) => {
+    let code = uuidV4() // Autogenerado con uuid
+
+// console.log(req.user)
+
 // let ticketTest = {
-//   code: "testCode213",
-  //   // purchase_datetime: undefined,
-  //   // products: undefined,
+//   code: code,
 //   amount: 123,
 //   purchaser: "testPurchaser"
 // }

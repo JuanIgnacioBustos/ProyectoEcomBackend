@@ -20,7 +20,7 @@ const initializePassportLocal = () => {
             age: "None",
             role: "admin",
             id: 0,
-            cart: '6497212e45dc4c65b0998622' // IMPORTANTE: Este carrito esta hardcodeado (es uno al azar)
+            cart: null // IMPORTANTE: El admin no tiene carrito (interpretacion de consigna)
         }
 
         return done(null, user)
@@ -60,7 +60,7 @@ const initializePassportLocal = () => {
             let user = await userService.findUser(email); 
 
             if (user) {
-            return done(null, false); 
+            return done(null, false);
             }
 
             let newUser = {

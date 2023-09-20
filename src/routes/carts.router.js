@@ -29,6 +29,12 @@ router.put('/:cid', cartsController.replaceProductsFromCart)
 
 router.put('/:cid/products/:pid', cartsController.updateProductQuantityFromCart)
 
-router.post('/:cid/purchase', cartsController.purchaseProductsFromCart)
+router.post(
+    '/:cid/purchase',
+    passport.authenticate('jwt', {session: false}),
+    userRoleAuth,
+    verifyCartAccess,
+    cartsController.purchaseProductsFromCart
+) // Solo los usuarios pueden realizar la compra, y unicamente la de su carrito
 
 export default router
