@@ -1,4 +1,4 @@
-import { ticketsModel } from "../models/ticket.model";
+import { ticketsModel } from "../models/ticket.model.js";
 
 export default class TicketManager {
 

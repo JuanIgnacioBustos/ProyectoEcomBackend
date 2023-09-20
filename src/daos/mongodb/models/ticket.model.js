@@ -5,7 +5,8 @@ const collection = 'tickets'
 let ticketSchema = new mongoose.Schema({
     code: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     purchase_datetime: {
         type: Date,

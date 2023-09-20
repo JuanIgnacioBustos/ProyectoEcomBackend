@@ -1,6 +1,8 @@
 import CartService from "../services/cart.service.js";
+import TicketService from "../services/ticket.service.js"
 
 let cartService = new CartService()
+let ticketService = new TicketService()
 
 const getCarts = async (req, res) => {
     let carts = await cartService.getCarts()
@@ -82,6 +84,20 @@ const updateProductQuantityFromCart = async (req, res) => {
     res.send({status: "success"})
 }
 
+const purchaseProductsFromCart = async (req, res) => {
+// let ticketTest = {
+//   code: "testCode213",
+  //   // purchase_datetime: undefined,
+  //   // products: undefined,
+//   amount: 123,
+//   purchaser: "testPurchaser"
+// }
+
+// await ticketService.createTicket(ticketTest)
+
+    res.send({status: "success"})
+}
+
 export default {
     getCarts,
     getCartById,
@@ -90,5 +106,6 @@ export default {
     deleteProductFromCart,
     deleteAllProductsFromCart,
     replaceProductsFromCart,
-    updateProductQuantityFromCart
+    updateProductQuantityFromCart,
+    purchaseProductsFromCart
 }
