@@ -2,6 +2,7 @@ import { createHash } from "../utils.js";
 import jwt from "jsonwebtoken";
 import config from "../config.js";
 import UserService from "../services/user.service.js";
+import CurrentUserDTO from "./DTO/user.dto.js";
 
 const userService = new UserService()
 
@@ -75,7 +76,9 @@ const githubcallback = async (req, res) => {
 }
 
 const current = async (req, res) => {
-    res.send(req.user);
+    let userDto = new CurrentUserDTO(req.user)
+
+    res.send(userDto);
 }
 
 export default {
