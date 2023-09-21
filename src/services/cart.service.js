@@ -53,4 +53,37 @@ export default class CartService {
 
         return products
     }
+
+    async purchaseAllProductsFromCart(cartId) {
+        let productsBought = [];
+        let total = 0;
+        let productsNotBought = []; // Son los productos que no pudieron comprarse
+        
+        let products = await this.cartDao.getAllProductsFromCart(cartId)
+
+        for (let prod of products) {
+        // Recordar que "prod" es un objeto, que contiene al "product" y "quantity"
+        let product = await this.productService.getProductById(prod.product._id)
+
+        if (prod.quantity > product.stock) {
+            console.log("Quantity mayor que stock")
+
+            productsNotBought.push(product._id); // TODO: Quiza pushear todo el producto
+
+            continue // No se pudo completar esta compra, paso al siguiente producto
+        }
+
+        // Si llego hasta aca. La compra de este producto se puede completar
+        // Actualizo el stock, agrego el producto al array, y sumo al total
+
+        await this.productService.updateProduct(product._id, {stock: product.stock - prod.quantity})
+
+        productsBought.push({productId: product._id, quantity: prod.quantity}) // TODO: Quiza agregarlo todo
+
+        total += (prod.quantity * product.price)
+        }
+
+        return { productsBought, total, productsNotBought }
+    }
+
 }

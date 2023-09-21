@@ -88,17 +88,23 @@ const updateProductQuantityFromCart = async (req, res) => {
 const purchaseProductsFromCart = async (req, res) => {
     let code = uuidV4() // Autogenerado con uuid
 
-// console.log(req.user)
+    let result = await cartService.purchaseAllProductsFromCart(req.user.cart)
 
-// let ticketTest = {
-//   code: code,
-//   amount: 123,
-//   purchaser: "testPurchaser"
-// }
+    let ticketData = {
+        code: code,
+        products: result.productsBought,
+        amount: result.total,
+        purchaser: req.user.name
+    }
 
-// await ticketService.createTicket(ticketTest)
+    let ticket = await ticketService.createTicket(ticketData)
 
-    res.send({status: "success"})
+    let payload = {
+        ticket,
+        productsUnableToPurchase: result.productsNotBought
+    }
+
+    res.send({status: "success", payload: payload})
 }
 
 export default {
