@@ -14,8 +14,8 @@ import routerSession from './routes/session.router.js'
 
 import { Server } from "socket.io";
 
-import ProductManager from './daos/mongodb/managers/ProductManager.class.js'
-import MessageManager from './daos/mongodb/managers/MessageManager.class.js'
+import ProductService from './services/products.service.js'
+import MessageService from './services/messages.service.js'
 
 import connectDB from './db.js'
 
@@ -65,41 +65,41 @@ socketServer.on("connection", async (socket) => {
 
   //////////////// PRODUCTOS ////////////////
 
-  let productManager = new ProductManager()
+  let productService = new ProductService()
 
   // Se envian todos los productos al conectarse
-  let products = await productManager.getProducts()
+  let products = await productService.getProducts()
   socket.emit("update-products", products.docs)
 
   // Se agrega el producto y se vuelven a renderizar para todos los sockets conectados
   socket.on("add-product", async (productData) => {
-    await productManager.addProduct(productData)
+    await productService.addProduct(productData)
     
-    products = await productManager.getProducts()
+    products = await productService.getProducts()
     socketServer.emit("update-products", products.docs)
   })
 
   // Se elimina el producto y se vuelven a renderizar para todos los sockets conectados
   socket.on("delete-product", async (productID) => {
-    await productManager.deleteProduct(productID)
+    await productService.deleteProduct(productID)
 
-    products = await productManager.getProducts()
+    products = await productService.getProducts()
     socketServer.emit("update-products", products.docs)
   })
 
   //////////////// MENSAJES ////////////////
 
-  let messageManager = new MessageManager()
+  let messageService = new MessageService()
 
   // Se envian todos los mensajes al conectarse
-  socket.emit("update-messages", await messageManager.getMessages())
+  socket.emit("update-messages", await messageService.getMessages())
 
   // Se agrega el mensaje y se vuelven a renderizar
   socket.on("new-message", async (newMessage) => {
 
-    await messageManager.addMessage(newMessage)
+    await messageService.addMessage(newMessage)
 
-    socketServer.emit("update-messages", await messageManager.getMessages())
+    socketServer.emit("update-messages", await messageService.getMessages())
   })
 })
 
