@@ -85,24 +85,23 @@ const updateProductQuantityFromCart = async (req, res) => {
     res.send({status: "success"})
 }
 
-// IMPORTANTE: Entiendo que se pide que en caso de no poder realizar la compra de algun producto (por falta
+// IMPORTANTE: Entiendo se nos pide que en caso de no poder realizar la compra de algun producto (por falta
 // de stock), que igualmente se complete la compra... pero solo para los productos que pudieron ser
 // comprados (y devolver ademas del ticket, los productos que no pudieron comprarse)
 
-
 const purchaseProductsFromCart = async (req, res) => {
-    let code = uuidV4() // Autogenerado con uuid
+  let code = uuidV4() // Autogenerado con uuid
 
-    let purchaseData = await cartService.purchaseAllProductsFromCart(req.user.cart) // Se hace la compra
+  let purchaseData = await cartService.purchaseAllProductsFromCart(req.user.cart) // Se hace la compra
 
 // Se eliminan del carrito los productos que pudieron ser comprados
     await cartService.deleteProductsFromCart(req.user.cart, purchaseData.productsBought) 
 
     let ticketData = {
         code: code,
-        products: purchaseData.productsBought,
+        products: purchaseData.productsBought, 
         amount: purchaseData.total,
-        purchaser: req.user.name
+        purchaser: req.user.email
     }
 
     let ticket = await ticketService.createTicket(ticketData)
