@@ -88,12 +88,15 @@ const updateProductQuantityFromCart = async (req, res) => {
 const purchaseProductsFromCart = async (req, res) => {
     let code = uuidV4() // Autogenerado con uuid
 
-    let result = await cartService.purchaseAllProductsFromCart(req.user.cart)
+    let purchaseData = await cartService.purchaseAllProductsFromCart(req.user.cart) // Se hace la compra
+
+// Se eliminan del carrito los productos que pudieron ser comprados
+    await cartService.deleteProductsFromCart(req.user.cart, purchaseData.productsBought) 
 
     let ticketData = {
         code: code,
-        products: result.productsBought,
-        amount: result.total,
+        products: purchaseData.productsBought,
+        amount: purchaseData.total,
         purchaser: req.user.name
     }
 
@@ -101,7 +104,7 @@ const purchaseProductsFromCart = async (req, res) => {
 
     let payload = {
         ticket,
-        productsUnableToPurchase: result.productsNotBought
+        productsUnableToPurchase: purchaseData.productsNotBought
     }
 
     res.send({status: "success", payload: payload})
