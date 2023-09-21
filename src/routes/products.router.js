@@ -16,8 +16,18 @@ router.post(
     productsController.addProduct
 ) // Solo un admin puede agregar productos
 
-router.put('/:pid', productsController.updateProduct)
+router.put(
+    '/:pid',
+    passport.authenticate('jwt', {session: false}),
+    adminRoleAuth,
+    productsController.updateProduct
+)
 
-router.delete('/:pid', productsController.deleteProduct)
+router.delete(
+    '/:pid',
+    passport.authenticate('jwt', {session: false}),
+    adminRoleAuth,
+    productsController.deleteProduct
+)
 
 export default router

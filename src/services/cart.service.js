@@ -77,7 +77,7 @@ export default class CartService {
 
         await this.productService.updateProduct(product._id, {stock: product.stock - prod.quantity})
 
-        productsBought.push({productId: product._id, quantity: prod.quantity})  /* TODO: Quiza agregarlo todo */
+        productsBought.push({productId: product._id, quantity: prod.quantity}) // TODO: Quiza agregarlo todo
 
         total += (prod.quantity * product.price)
         }
@@ -87,7 +87,6 @@ export default class CartService {
 
     async deleteProductsFromCart(cartId, products) {
         for (let product of products) {
-        console.log(cartId, product.productId)
         await this.deleteProductFromCart(cartId, product.productId.toString())
         }
     }
