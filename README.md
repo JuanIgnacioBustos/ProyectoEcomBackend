@@ -1,3 +1,3 @@
-Tercera entrega del Proyecto Final del curso de Backend de Coderhouse
+Desafio Mocking y prueba de errores - Coderhouse
 
 Juan Ignacio Bustos
