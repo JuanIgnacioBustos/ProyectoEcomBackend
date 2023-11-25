@@ -43,4 +43,10 @@ export default class UserService {
     async updateUserDocuments(id, documentationFiles) {
         await this.userDao.updateUserDocuments(id, documentationFiles)
     }
+
+    async getAllUsers() {
+        const users = await this.userDao.getAllUsers()
+
+        return users
+    }
 }

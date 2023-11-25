@@ -32,4 +32,8 @@ router.post(
     usersController.updateDocuments
 )
 
+// Obtener todos los usuarios
+
+router.get('/', usersController.getAllUsers)
+
 export default router

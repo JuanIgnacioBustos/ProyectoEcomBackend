@@ -64,10 +64,8 @@ export default class UserManager {
 
         // Se itera sobre los documentos del usuario, para ver si ya existia alguno (y actualizarlo)
         for (let userDoc of userDocuments) {
-            // Vemos si el documento ya existe
             if (userDoc.name === docName) {
-            // Existe. Se actualiza la referencia del documento de user
-            userDoc.reference = docFile.path
+            userDoc.reference = docFile.path // El documento existe, se actualiza la referencia
 
             documentUpdated = true // Seteamos el flag en true (para indicar que se actualizo el documento)
             break;
@@ -87,5 +85,11 @@ export default class UserManager {
 
         // Guardamos los cambios realizados sobre el usuario
         await user.save()
+    }
+
+    async getAllUsers() {
+        const users = await userModel.find({})
+
+        return users
     }
 }

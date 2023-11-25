@@ -1,4 +1,5 @@
 import UserService from "../services/user.service.js";
+import GetUserDTO from "./DTO/getUser.dto.js";
 
 const userService = new UserService()
 
@@ -63,7 +64,21 @@ const updateDocuments = async (req, res) => {
     }
 }
 
+const getAllUsers = async (req, res) => {
+    try {
+        const users = await userService.getAllUsers()
+
+        const usersDto = users.map((user) => new GetUserDTO(user))
+
+        res.send(usersDto)
+    }
+    catch(error) {
+        return res.status(404).send({status: "error", error: error.message});
+    }
+}
+
 export default {
     changeRole,
-    updateDocuments
+    updateDocuments,
+    getAllUsers
 }
