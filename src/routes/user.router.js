@@ -2,6 +2,7 @@ import { Router } from "express"
 import usersController from "../controllers/users.controller.js"
 import passport from "passport"
 import uploader from "../middlewares/multer.js"
+import { adminRoleAuth } from "./middlewares/roles.middlewares.js"
 
 const router = Router()
 
@@ -38,7 +39,11 @@ router.get('/', usersController.getAllUsers)
 
 // Eliminar todos los usuarios cuya ultima conexion fue hace mas de 2 dias
 
-router.delete('/', usersController.deleteInactiveUsers)
-
+router.delete(
+    '/',
+    passport.authenticate('jwt', {session: false}),
+    adminRoleAuth, // Solo un admin puede acceder a este endpoint
+    usersController.deleteInactiveUsers
+)
 
 export default router

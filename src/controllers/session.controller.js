@@ -22,7 +22,9 @@ const login = async (req, res) => {
         return res.status(400).send({status: "error", details: "Invalid credentials"})
     }
 
-    await userService.updateUserLastConnection(user.id)
+    if (user.role !== "admin") {
+        await userService.updateUserLastConnection(user.id)
+    }
 
     let token = jwt.sign(req.user, config.JWT_SECRET, {expiresIn: '24h'})
 
@@ -31,17 +33,17 @@ const login = async (req, res) => {
 
 const loginFail = async (req, res) => {
     res.status(400).send({status:"error", details: "Login failed"});
-    }
+}
 
-    const logout = async (req, res) => {
+const logout = async (req, res) => {
     const user = req.user
     await userService.updateUserLastConnection(user.id)
 
     res.clearCookie('authToken')
     res.send({status: "sucess"})
-    }
+}
 
-    const resetPassword = async (req, res) => {
+const resetPassword = async (req, res) => {
     const {email, password} = req.body;
 
     if (!email || !password) {

@@ -51,6 +51,24 @@ export default class UserService {
     }
 
     async deleteInactiveUsers() {
-        return "PLACEHOLDER"
+        const users = await this.getAllUsers()
+        const twoDays = 172800000 // Este valor corresponde a 48 horas (en milisegundos)
+        const usersToBeDeleted = [] // Array con los ids de los usuarios que se deben borrar
+
+        // Vemos cuales usuarios hay que borrar
+        for (let user of users) {
+        const lastConnection = Number(user.last_connection) // La ultima conexion del usuario (milisegundos)
+
+        const moreThanTwoDays = (lastConnection + twoDays) < Date.now() // 'True' si pasaron mas de 2 dias
+
+        if (moreThanTwoDays) {
+            usersToBeDeleted.push(user._id) // Se agrega el usuario a la lista de los que hay que borrar
+        }
+        }
+
+        // Borramos los usuarios
+        for (let userId of usersToBeDeleted) {
+        await this.userDao.deleteUserById(userId)
+        }
     }
 }

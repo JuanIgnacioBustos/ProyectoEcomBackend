@@ -92,4 +92,8 @@ export default class UserManager {
 
         return users
     }
+
+    async deleteUserById(id) {
+        await userModel.deleteOne({ _id: id })
+    }
 }

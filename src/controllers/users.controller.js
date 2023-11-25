@@ -79,7 +79,9 @@ const getAllUsers = async (req, res) => {
 
 const deleteInactiveUsers = async (req, res) => {
     try {
-        res.send("PLACEHOLDER")
+        await userService.deleteInactiveUsers()
+
+        res.send({status: "success"})
     }
     catch(error) {
         return res.status(404).send({status: "error", error: error.message});
