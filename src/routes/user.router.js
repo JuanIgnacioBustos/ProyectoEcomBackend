@@ -36,4 +36,9 @@ router.post(
 
 router.get('/', usersController.getAllUsers)
 
+// Eliminar todos los usuarios cuya ultima conexion fue hace mas de 2 dias
+
+router.delete('/', usersController.deleteInactiveUsers)
+
+
 export default router

@@ -49,4 +49,8 @@ export default class UserService {
 
         return users
     }
+
+    async deleteInactiveUsers() {
+        return "PLACEHOLDER"
+    }
 }

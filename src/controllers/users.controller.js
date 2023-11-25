@@ -77,8 +77,18 @@ const getAllUsers = async (req, res) => {
     }
 }
 
+const deleteInactiveUsers = async (req, res) => {
+    try {
+        res.send("PLACEHOLDER")
+    }
+    catch(error) {
+        return res.status(404).send({status: "error", error: error.message});
+    }
+}
+
 export default {
     changeRole,
     updateDocuments,
-    getAllUsers
+    getAllUsers,
+    deleteInactiveUsers
 }
