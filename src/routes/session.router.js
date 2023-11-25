@@ -1,6 +1,7 @@
 import { Router } from "express";
 import passport from "passport";
 import sessionController from "../controllers/session.controller.js";
+import { adminRoleAuth, userRoleAuth } from "./middlewares/roles.middlewares.js";
 
 const router = Router()
 
@@ -22,9 +23,15 @@ router.post(
 
 router.get('/loginFail', sessionController.loginFail)
 
-router.post('/logout', sessionController.logout)
+router.post(
+    '/logout',
+    passport.authenticate('jwt', { session: false }),
+    sessionController.logout
+)
 
 router.post('/resetPassword', sessionController.resetPassword)
+
+router.post('/requestResetPassword', sessionController.requestResetPassword)
 
 // github routes
 

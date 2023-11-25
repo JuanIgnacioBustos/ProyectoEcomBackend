@@ -10,7 +10,7 @@ const userService = new UserService()
 
 const initializePassportLocal = () => {
 
-// Strategies
+    // Strategies
 
     passport.use('login', new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
         if (email === config.ADMIN_NAME && password === config.ADMIN_PASSWORD) {
@@ -54,13 +54,13 @@ const initializePassportLocal = () => {
 
     passport.use("register", new LocalStrategy(
         {passReqToCallback: true, usernameField: 'email'}, async (req, username, password, done) => {
-        const {first_name, last_name, email, age} = req.body;
+        const {first_name, last_name, email, age, role} = req.body;
 
         try {
-            let user = await userService.findUser(email); 
+            let user = await userService.findUser(email); // Podria usar "username", pero es lo mismo
 
             if (user) {
-            return done(null, false);
+            return done(null, false); // Quiza mandar error en vez de null
             }
 
             let newUser = {
@@ -68,6 +68,7 @@ const initializePassportLocal = () => {
             last_name,
             email,
             age,
+            role,
             password: createHash(password)
             };
 

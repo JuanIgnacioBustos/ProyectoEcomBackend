@@ -1,4 +1,4 @@
-import CartManager from "../daos/mongodb/managers/CartManager.class.js";
+import CartManager from "../daos/mongodb/managers/CartMongo.dao.js";
 import ProductService from "./products.service.js"
 
 export default class CartService {
@@ -67,9 +67,7 @@ export default class CartService {
 
         if (prod.quantity > product.stock) {
 
-            productsNotBought.push(product._id); // TODO: Quiza pushear todo el producto
-
-            continue // No se pudo completar esta compra, paso al siguiente producto
+            productsNotBought.push(product._id);
         }
 
         // Si llego hasta aca. La compra de este producto se puede completar

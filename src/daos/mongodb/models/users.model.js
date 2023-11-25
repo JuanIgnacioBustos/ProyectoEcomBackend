@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 const collection = 'users'
 
 const schema = new mongoose.Schema({
-    first_name: {
+        first_name: {
         type: String,
         required: true
         },
@@ -22,7 +22,7 @@ const schema = new mongoose.Schema({
         },
         password: {
         type: String,
-        // required: true // Si la dejo en required, hay un en error con Github (la password esta vacia)
+        // required: true // Si la dejo en required, hay un en error con Github
         },
         cart: {
         type: mongoose.Schema.Types.ObjectId,
@@ -30,10 +30,27 @@ const schema = new mongoose.Schema({
         },
         role: {
         type: String,
-        enum: ["user", "admin"],
+        enum: ["user", "admin", "premium"],
         default: "user",
         required: true
-    }
+        },
+        documents: {
+        type: [
+            {
+            name: {
+                type: String // Es el nombre del documento (por ejemplo, 'identification')
+            },
+            reference: {
+                type: String // Es el link al archivo
+            }
+            }
+        ],
+        default: []
+        },
+        last_connection: {
+        type: String,
+        default: Date.now() // Es en milisegundos
+        }
 })
 
 export const userModel = mongoose.model(collection, schema)

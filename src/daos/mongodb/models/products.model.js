@@ -36,6 +36,11 @@ const ProductSchema = new mongoose.Schema({
     status: {
         type: String,
         required: true
+    },
+    owner: {
+        type: String, // Solo deberia recibir mails de usuarios de rol "premium"
+        ref: 'users',
+        default: "admin"
     }
 })
 

@@ -1,3 +1,3 @@
-Desafio Mocking y prueba de errores - Coderhouse
+Practica Integradora y Desafio de Testing - Coderhouse
 
 Juan Ignacio Bustos
