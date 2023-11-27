@@ -43,15 +43,20 @@ const products = async (req, res) => {
 }
 
 const cart = async (req, res) => {
-    let cartId = req.params.cid
+    try {
+        let cartId = req.params.cid
 
-    let cartProducts = await viewService.getAllProductsFromCart(cartId)
-
-    res.render('cart', {
+        let cartProducts = await viewService.getAllProductsFromCart(cartId)
+    
+        res.render('cart', {
         title: "Cart",
         cartProducts: cartProducts,
         cartId: cartId
-    })
+        })
+    }
+    catch (err) {
+        return res.status(404).send({status: "error", error: err.message});
+    }
 }
 
 const login = async (req, res) => {
@@ -70,6 +75,23 @@ const requestResetPassword = async (req, res) => {
     res.render('requestResetPassword')
 }
 
+const user = async (req, res, next) => {
+    try {
+        let userId = req.params.uid
+
+        let user = await viewService.getUserById(userId)
+    
+        res.render('user', {
+        title: "User",
+        user: user,
+        userId: userId
+        })
+    }
+    catch (err) {
+        return res.status(404).send({status: "error", error: err.message});
+    }
+}
+
 export default {
     home,
     realTimeProducts,
@@ -79,5 +101,6 @@ export default {
     login,
     register,
     resetPassword,
-    requestResetPassword
+    requestResetPassword,
+    user
 }

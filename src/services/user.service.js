@@ -1,4 +1,5 @@
 import UserManager from "../daos/mongodb/managers/UserMongo.dao.js";
+import Mail from "../helpers/mail.js";
 import CartService from "../services/cart.service.js"
 
 export default class UserService {
@@ -53,7 +54,9 @@ export default class UserService {
     async deleteInactiveUsers() {
         const users = await this.getAllUsers()
         const twoDays = 172800000 // Este valor corresponde a 48 horas (en milisegundos)
+        // const twoDays = 600000 // TEST (10 minutos)
         const usersToBeDeleted = [] // Array con los ids de los usuarios que se deben borrar
+        let mail = new Mail()
 
         // Vemos cuales usuarios hay que borrar
         for (let user of users) {
@@ -66,9 +69,16 @@ export default class UserService {
         }
         }
 
-        // Borramos los usuarios
+        // Borramos los usuarios, y les mandamos un mail avisandoles que su cuenta fue borrada
         for (let userId of usersToBeDeleted) {
-        await this.userDao.deleteUserById(userId)
+        let user = await this.findUserById(userId)
+        await mail.send(
+            user,
+            "Account deleted",
+            "Tu cuenta ha sido eliminada por inactividad"
+        ) // Enviamos el mail
+
+        await this.userDao.deleteUserById(userId) // Eliminamos el usuario
         }
     }
 }

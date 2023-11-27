@@ -26,4 +26,6 @@ router.get(
 
 router.get('/requestResetPassword', viewsController.requestResetPassword)
 
+router.get('/users/:uid', viewsController.user)
+
 export default router;

@@ -1,11 +1,13 @@
 import ProductService from "./products.service.js";
 import CartService from "../services/cart.service.js";
+import UserService from "../services/user.service.js"
 
 export default class ViewService {
 
     constructor() {
         this.productService = new ProductService()
         this.cartService = new CartService()
+        this.userService = new UserService
     }
 
     async getProducts(limit, page, sort, filter, filterValue) {
@@ -18,5 +20,11 @@ export default class ViewService {
         let products = await this.cartService.getAllProductsFromCart(cartId)
 
         return products
+    }
+
+    async getUserById(userId) {
+        let user = await this.userService.findUserById(userId)
+
+        return user
     }
 }
