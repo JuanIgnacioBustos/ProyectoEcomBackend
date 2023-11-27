@@ -25,6 +25,6 @@ export default class ViewService {
     async getUserById(userId) {
         let user = await this.userService.findUserById(userId)
 
-        return user
+        return user.toObject()
     }
 }

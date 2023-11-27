@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import passport from 'passport';
 import viewsController from '../controllers/views.controller.js';
+import { adminRoleAuth } from "./middlewares/roles.middlewares.js"
 
 const router = Router();
 
@@ -26,6 +27,11 @@ router.get(
 
 router.get('/requestResetPassword', viewsController.requestResetPassword)
 
-router.get('/users/:uid', viewsController.user)
+router.get(
+    '/users/:uid',
+    passport.authenticate('jwt', { session: false }),
+    adminRoleAuth,
+    viewsController.user
+)
 
 export default router;

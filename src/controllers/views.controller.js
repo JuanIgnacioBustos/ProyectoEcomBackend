@@ -1,4 +1,5 @@
 import ViewService from "../services/views.service.js";
+import ViewUserDTO from "./DTO/viewUser.dto.js"
 
 let viewService = new ViewService()
 
@@ -83,7 +84,7 @@ const user = async (req, res, next) => {
     
         res.render('user', {
         title: "User",
-        user: user,
+        user: new ViewUserDTO(user),
         userId: userId
         })
     }
