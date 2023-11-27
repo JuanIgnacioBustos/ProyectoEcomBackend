@@ -46,4 +46,13 @@ router.delete(
     usersController.deleteInactiveUsers
 )
 
+// Eliminar un usuario
+
+router.delete(
+    '/:uid',
+    passport.authenticate('jwt', {session: false}),
+    adminRoleAuth, // Solo un admin puede acceder a este endpoint
+    usersController.deleteUser
+)
+
 export default router

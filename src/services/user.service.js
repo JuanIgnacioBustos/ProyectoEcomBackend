@@ -81,4 +81,8 @@ export default class UserService {
         await this.userDao.deleteUserById(userId) // Eliminamos el usuario
         }
     }
+
+    async deleteUserById(id) {
+        await this.userDao.deleteUserById(id)
+    }
 }

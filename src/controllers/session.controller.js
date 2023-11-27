@@ -37,8 +37,11 @@ const loginFail = async (req, res) => {
 
 const logout = async (req, res) => {
     const user = req.user
-    await userService.updateUserLastConnection(user.id)
 
+    if (user.role !== "admin") {
+        await userService.updateUserLastConnection(user.id)
+    }
+    
     res.clearCookie('authToken')
     res.send({status: "sucess"})
 }
