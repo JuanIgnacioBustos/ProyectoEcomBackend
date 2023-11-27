@@ -78,11 +78,15 @@ export default class UserService {
             "Tu cuenta ha sido eliminada por inactividad"
         ) // Enviamos el mail
 
-        await this.userDao.deleteUserById(userId) // Eliminamos el usuario
+        await this.deleteUserById(userId) // Eliminamos el usuario
         }
     }
 
     async deleteUserById(id) {
-        await this.userDao.deleteUserById(id)
+        let user = await this.findUserById(id)
+
+        await this.cartService.deleteCart(user.cart) // Se elimina el carrito asociado al usuario
+
+        await this.userDao.deleteUserById(id) // Finalmente, se elimina el usuario
     }
 }

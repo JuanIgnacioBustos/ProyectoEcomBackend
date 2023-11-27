@@ -67,7 +67,9 @@ export default class CartService {
 
         if (prod.quantity > product.stock) {
 
-            productsNotBought.push(product._id);
+            productsNotBought.push(product._id); // TODO: Quiza pushear todo el producto
+
+            continue // No se pudo completar esta compra, paso al siguiente producto
         }
 
         // Si llego hasta aca. La compra de este producto se puede completar
@@ -89,4 +91,7 @@ export default class CartService {
         }
     }
 
+    async deleteCart(cartId) {
+        await this.cartDao.deleteCart(cartId)
+    }
 }
