@@ -2,18 +2,29 @@ import { Router } from 'express';
 import passport from 'passport';
 import viewsController from '../controllers/views.controller.js';
 import { adminRoleAuth } from "./middlewares/roles.middlewares.js"
+import { verifyCartAccess } from "./middlewares/carts.middleware.js"
 
 const router = Router();
 
 router.get('/', viewsController.home)
 
-router.get('/realtimeproducts', viewsController.realTimeProducts)
+router.get(
+    '/realtimeproducts',
+    passport.authenticate('jwt', { session: false }),
+    adminRoleAuth,
+    viewsController.realTimeProducts
+)
 
 router.get('/chat', viewsController.chat)
 
 router.get('/products', passport.authenticate('jwt', { session: false }), viewsController.products)
 
-router.get('/carts/:cid', viewsController.cart)
+router.get(
+    '/carts/:cid',
+    passport.authenticate('jwt', { session: false }),
+    verifyCartAccess, // Solo se puede mirar el carrito de uno mismo
+    viewsController.cart
+)
 
 router.get('/login', viewsController.login)
 

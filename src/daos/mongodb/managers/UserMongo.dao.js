@@ -5,6 +5,7 @@ export default class UserManager {
     async addUser(user, cart) {
         try {
         user.cart = cart._id
+        user.last_connection = Date.now()
 
         let result = await userModel.create(user)
 
@@ -59,8 +60,8 @@ export default class UserManager {
         for (let docFile of documentationFiles) {
         let documentUpdated = false // Flag, indicia si el documento se actualizo (sino, se agrega)
         
-        let docName = docFile.filename.split("-")[0] // Es el nombre del documento que puede ser:
-        // 'identification', 'address', 'accountState'
+        // Es el nombre del documento que puede ser: 'identification', 'address', 'accountState'
+        let docName = docFile.filename.split("-")[0] 
 
         // Se itera sobre los documentos del usuario, para ver si ya existia alguno (y actualizarlo)
         for (let userDoc of userDocuments) {
@@ -74,12 +75,11 @@ export default class UserManager {
 
         // Vemos si se actualizo el documento (es decir, ya existia anteriormente), sino, se agrega
         if (!documentUpdated) {
-            // El documento no existia anteriormente. Se agrega
             let newUserDocument = {
             name: docName,
             reference: docFile.path
             }
-            userDocuments.push(newUserDocument)
+            userDocuments.push(newUserDocument) // El documento no existia anteriormente. Se agrega
         }
         }
 
