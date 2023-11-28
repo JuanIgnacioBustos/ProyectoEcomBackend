@@ -34,4 +34,11 @@ router.get(
     viewsController.user
 )
 
+router.get(
+    '/users',
+    passport.authenticate('jwt', { session: false }),
+    adminRoleAuth,
+    viewsController.allUsers
+)
+
 export default router;

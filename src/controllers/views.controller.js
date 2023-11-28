@@ -93,6 +93,20 @@ const user = async (req, res, next) => {
     }
 }
 
+const allUsers = async (req, res, next) => {
+    try {
+        let users = await viewService.getAllUsers()
+    
+        res.render('users', {
+        title: "Users",
+        users: users
+        })
+    }
+    catch (err) {
+        return res.status(404).send({status: "error", error: err.message});
+    }
+}
+
 export default {
     home,
     realTimeProducts,
@@ -103,5 +117,6 @@ export default {
     register,
     resetPassword,
     requestResetPassword,
-    user
+    user,
+    allUsers
 }

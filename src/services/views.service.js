@@ -27,4 +27,14 @@ export default class ViewService {
 
         return user.toObject()
     }
+
+    async getAllUsers() {
+        let users = await this.userService.getAllUsers()
+        
+        users = users.map((user) => user.toObject())
+
+        //console.log(users)
+
+        return users
+    }
 }
