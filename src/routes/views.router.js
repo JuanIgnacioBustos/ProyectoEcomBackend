@@ -6,7 +6,11 @@ import { verifyCartAccess } from "./middlewares/carts.middleware.js"
 
 const router = Router();
 
-router.get('/', viewsController.home)
+// Esta vista se utilizo en uno de los primeros desafios (desactualizada)
+
+router.get('/', viewsController.home) 
+
+// Esta vista se utilizo en uno de los primeros desafios (sockets)
 
 router.get(
     '/realtimeproducts',
@@ -15,7 +19,12 @@ router.get(
     viewsController.realTimeProducts
 )
 
+// Esta vista se utilizo en uno de los primeros desafios (sockets)
+
 router.get('/chat', viewsController.chat)
+
+// Las siguientes vistas se utilizan para un flujo completo de compra (mas algunas
+// solicitadas en la ultima entrega del proyecto final)
 
 router.get('/products', passport.authenticate('jwt', { session: false }), viewsController.products)
 
