@@ -107,6 +107,25 @@ const allUsers = async (req, res, next) => {
     }
 }
 
+const ticket = async (req, res, next) => {
+    try {
+        let ticketId = req.params.tid
+
+        let ticket = await viewService.getTicket(ticketId)
+
+        let dataProductsBought = await viewService.getDataProductsBought(ticketId)
+
+        res.render('ticket', {
+        title: "Ticket",
+        ticket: ticket,
+        dataProductsBought: dataProductsBought
+        })
+    }
+    catch (err) {
+        return res.status(404).send({status: "error", error: err.message});
+    }
+}
+
 export default {
     home,
     realTimeProducts,
@@ -118,5 +137,6 @@ export default {
     resetPassword,
     requestResetPassword,
     user,
-    allUsers
+    allUsers,
+    ticket
 }

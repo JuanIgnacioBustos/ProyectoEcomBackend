@@ -2,7 +2,7 @@ let btnCartPurchase = document.getElementById("btn-cart-purchase")
 let emtpyCart = document.getElementById("btn-empty-cart")
 
 btnCartPurchase.addEventListener('click', async () => {
-  let cartId = window.location.pathname.split("/").pop() // Se obtiene el id desde la url
+    let cartId = window.location.pathname.split("/").pop() // Se obtiene el id desde la url
 
     fetch(`/api/carts/${cartId}/purchase`, {
         method: 'POST'
@@ -22,8 +22,7 @@ btnCartPurchase.addEventListener('click', async () => {
         let payload = (await result.json()).payload
         let ticketId = payload.ticket._id
 
-        console.log(ticketId)
-        //setTimeout(() => window.location.replace("/products"), 3000) // Redirigimos al ticket
+        setTimeout(() => window.location.replace(`/tickets/${ticketId}`), 3000) // Redirigimos al ticket
         }
         else {
         Swal.fire({

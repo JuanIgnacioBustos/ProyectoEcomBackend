@@ -61,4 +61,9 @@ router.get(
     viewsController.allUsers
 )
 
+router.get(
+    '/tickets/:tid',
+    viewsController.ticket
+)
+
 export default router;
