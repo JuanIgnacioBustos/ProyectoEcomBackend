@@ -99,31 +99,33 @@ const updateProductQuantityFromCart = async (req, res) => {
 // comprados (y devolver ademas del ticket, los productos que no pudieron comprarse)
 
 const purchaseProductsFromCart = async (req, res) => {
-    let code = uuidV4() // Autogenerado con uuid
+    try {
+        let code = uuidV4() // Autogenerado con uuid
 
-    let purchaseData = await cartService.purchaseAllProductsFromCart(req.user.cart) // Se hace la compra
+        let purchaseData = await cartService.purchaseAllProductsFromCart(req.user.cart) // Se hace la compra
 
-    // TODO: Quiza (si se mantiene esta logica), si el carrito esta vacio o no se pudo comprar ningun
-    // producto, no generar un ticket
+        // Se eliminan del carrito los productos que pudieron ser comprados
+        await cartService.deleteProductsFromCart(req.user.cart, purchaseData.productsBought) 
 
-    // Se eliminan del carrito los productos que pudieron ser comprados
-    await cartService.deleteProductsFromCart(req.user.cart, purchaseData.productsBought) 
-
-    let ticketData = {
+        let ticketData = {
         code: code,
-        products: purchaseData.productsBought, // TODO: Quiza cambiar el formato de envio de productos
+        products: purchaseData.productsBought,
         amount: purchaseData.total,
         purchaser: req.user.email
-    }
+        }
 
-    let ticket = await ticketService.createTicket(ticketData)
+        let ticket = await ticketService.createTicket(ticketData)
 
-    let payload = {
+        let payload = {
         ticket,
         productsUnableToPurchase: purchaseData.productsNotBought
-    }
+        }
 
-    res.send({status: "success", payload: payload})
+        res.send({status: "success", payload: payload})
+    }
+    catch (error) {
+        res.status(400).send({status: "failure", details: error.message})
+    }
 }
 
 export default {

@@ -52,7 +52,11 @@ export default class ViewService {
         for (let product of ticket.products) {
         let fullProduct = await this.productService.getProductById(product.productId)
 
-        productsBought.push({product: fullProduct.toObject(), quantity: product.quantity})
+        productsBought.push({
+            product: fullProduct.toObject(),
+            quantity: product.quantity,
+            subtotal: product.quantity * fullProduct.price
+        })
         }
         
         return productsBought
