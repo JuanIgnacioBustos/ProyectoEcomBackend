@@ -18,6 +18,7 @@
                 <p> Title: {{this.title}} </p>
                 <p> Description: {{this.description}} </p>
                 <p> Price: {{this.price}} </p>
+                <p> Stock: {{this.stock}} </p>
                 <button id={{this._id}} onclick="addProductToCart(this)">Agregar al carrito</button>
             </div>
             {{/each}}
@@ -45,7 +46,7 @@
 <script>
     async function addProductToCart(button) {
         let productId = button.id
-        let cartId = document.getElementById("cart-id").innerText.split(" ")[3] // TODO: Es muy feo, cambiar
+        let cartId = document.getElementById("cart-id").innerText.split(" ")[3]
 
         try {     
         let url = "http://localhost:8080/api/carts/"+ cartId + "/product/" + productId
