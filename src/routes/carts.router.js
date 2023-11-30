@@ -32,7 +32,7 @@ router.put('/:cid/products/:pid', cartsController.updateProductQuantityFromCart)
 router.post(
     '/:cid/purchase',
     passport.authenticate('jwt', {session: false}),
-    userRoleAuth,
+    multipleRolesAuth(["user", "premium"]),
     verifyCartAccess,
     cartsController.purchaseProductsFromCart
 ) // Solo los usuarios pueden realizar la compra, y unicamente la de su carrito

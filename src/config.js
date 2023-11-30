@@ -3,7 +3,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 export default {
-    PORT: process.env.PORT,
+    PORT: process.env.PORT || 8080,
     MONGO_URL: process.env.MONGO_URL,
     MONGO_URL_TEST: process.env.MONGO_URL_TEST,
     ADMIN_NAME: process.env.ADMIN_NAME,
