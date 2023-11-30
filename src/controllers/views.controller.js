@@ -33,8 +33,8 @@ const products = async (req, res) => {
 
     let products = await viewService.getProducts(limit, page, sort); 
 
-    products.prevLink = products.hasPrevPage ? `http://localhost:8080/products?page=${products.prevPage}&limit=${limit}&sort=${sort}` : '';
-    products.nextLink = products.hasNextPage ? `http://localhost:8080/products?page=${products.nextPage}&limit=${limit}&sort=${sort}` : '';
+    products.prevLink = products.hasPrevPage ? `/products?page=${products.prevPage}&limit=${limit}&sort=${sort}` : '';
+    products.nextLink = products.hasNextPage ? `/products?page=${products.nextPage}&limit=${limit}&sort=${sort}` : '';
 
     res.render('products', {
         title: "Products",

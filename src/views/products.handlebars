@@ -48,7 +48,7 @@
         let cartId = document.getElementById("cart-id").innerText.split(" ")[3]
 
         try {     
-        let url = "http://localhost:8080/api/carts/"+ cartId + "/product/" + productId
+        let url = "/api/carts/"+ cartId + "/product/" + productId
 
         const response = await fetch(url, {
             method: 'post'
@@ -64,7 +64,7 @@
     let logoutButton = document.getElementById("logout-btn")
 
     logoutButton.addEventListener("click", (evt) => {
-        fetch('http://localhost:8080/api/sessions/logout', {method: 'post'})
+        fetch('/api/sessions/logout', {method: 'post'})
         .then( res => {
         return window.location.replace('/login')
         })
